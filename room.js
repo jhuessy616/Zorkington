@@ -2,6 +2,7 @@ class Room {
   constructor({
     name,
     description,
+    specialMessage,
     inventory,
     people,
     requiredKey,
@@ -9,6 +10,7 @@ class Room {
   }) {
     this.name = name;
     this.description = description;
+    this.specialMessage = specialMessage;
     this.inventory = inventory;
     this.people = people;
     this.requiredKey = requiredKey;

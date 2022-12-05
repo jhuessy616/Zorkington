@@ -21,6 +21,7 @@ let foyer = new Room({
     {
       item: "key",
       message: "You picked the key and can be used in the kitchen",
+      moveable: false,
     },
   ],
   description: "You are currently in the foyer and you see a note a key",
