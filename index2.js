@@ -81,7 +81,7 @@ class Player {
 }
 // ! ROOMS----------------------
 // Julia's room 
-let player = new Player(["watch"]);
+let player = new Player([]);
 let playerInventory = player.inventory;
 
 let kitchen = new Room({
@@ -92,10 +92,34 @@ let kitchen = new Room({
   people: ["julia", "elena"],
     requiredKey: false,
   isRoomLocked: false,
-  possibleRooms: ["lair", "doorA"],
+  possibleRooms: ["lair", "doora"],
 });
 
-// ! ITEMS  In Julia's kitchen ______________
+//  Jonas's Lair 
+let lair = new Room({
+  name: "Jonas' Lair",
+  inventory: ["NES"],
+  description: "You are now in Jonas’ Lair. We never get to see much of his space from his camera view, and you wonder, italics Is it because he’s hiding something? End italics.  Rob is always making jokes about Jonas’ age and pointing out how young he is. Italics Did it push Jonas to the edge, was he sick of being reminded daily that he can’t drink and he’s barely an adult? End italics Jonas sits at his workspace, his large monitors glowing as he plays Name OF GAME JONAS LIKES. You notice a Nintendo Entertainment System (NES) sitting on a bookshelf. Italics That’s odd, Jonas wasn’t even alive when NES was released, how did he ever get his hands on one? End Italics You see the door that you just came through from Julia’s home, but don’t see any other doors out of here. Italics Could this be a dead end?",  
+  people: ["jonas"],
+    requiredKey: false,
+  isRoomLocked: false,
+  possibleRooms: ["kitchen"],
+});
+
+//  ALice's Room ------------------------
+let bedroom = new Room({
+  name: "Alice's Bedroom",
+  inventory: ["guitar", "pick"],
+  description: "bla bla bla ",  
+  people: ["alice"],
+    requiredKey: "letter",
+  isRoomLocked: true,
+  possibleRooms: ["kitchen"],
+});
+
+// ! ALL ITEMS ------------------
+
+//  ITEMS  In Julia's kitchen ______________
 let wardrobe = new Item({
   name: "wardrobe",
   description:
@@ -106,6 +130,7 @@ let wardrobe = new Item({
     lockedMessage: "The wardrobe is locked, but an odd H is etched into the wood just above the keyhole.",
   requiredKey: "key",
 });
+
 
 let key = new Item({
   name: "key",
@@ -152,7 +177,8 @@ let elena = new Item({
 // -------------------Lookup tables -------------------
 let roomLookUp = {
     kitchen: kitchen,
-    lair: lair
+    lair: lair,
+    doora: bedroom,
 };
 
 let itemLookUp = {
@@ -296,9 +322,9 @@ async function start() {
         // ! MOVE -------------
         else if (commandWords.movement.includes(command)) {
            let currentPossibleRooms = roomLookUp[currentLocation].possibleRooms;
-
-    if (currentPossibleRooms.includes(target)) {
-      if (roomLookUp[target].isLocked === false) {
+            if (currentPossibleRooms.includes(target)) {
+        if (roomLookUp[target].isRoomLocked == false) {
+            
         currentLocation = target;
         console.log(roomLookUp[currentLocation].description);
         // You need to set the isDoorLocked = true
