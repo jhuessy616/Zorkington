@@ -14,7 +14,7 @@ function ask(questionText) {
   });
 }
 
-// ----------------------------------------------------------------------------
+
 // ! -------------------------- Classes ---------------------------------------
 
 class Room {
@@ -496,8 +496,8 @@ async function start() {
   console.log();
   console.log(roomLookUp[currentLocation].description);
 
-  let answer;
-  while (answer !== "quit") {
+ 
+  while (true) {
     let answer = (await ask(">_")).toLowerCase().trim().split(" ");
     let command = answer[0];
     let target = answer[answer.length - 1];
@@ -511,9 +511,11 @@ async function start() {
     //     commands[command](target);
     // }
     
-   
-
-    if (command == "dance" && currentLocation== "stage")
+  // ! -------Quit game -----------
+    if (command == "quit") {
+      process.exit();
+}
+    else if (command == "dance" && currentLocation== "stage")
     {
       await ask("You start to dance and as Divided Sky's last notes fade into the distance, a familiar silhouette comes onto stage. You can hardely believe your eyes! Trey steps up to the microphone. 'Everyone give a warm welcoem to our newest guitarist, Robert Vanarsdall!' The crowd errupts in screams and applause!'");
      
@@ -774,7 +776,5 @@ async function start() {
       console.log("You just dropped the " + target + " like it's hot in the " + roomLookUp[currentLocation].name + ".")
       
     }
-    
-    // ! -----------
   }
 }
