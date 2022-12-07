@@ -4,6 +4,9 @@ const readlineInterface = readline.createInterface(
   process.stdin,
   process.stdout
 );
+let green = "\033[92m";
+let white = "\033[0;39m";
+let magenta= '\033[1;95m';
 
 function ask(questionText) {
   return new Promise((resolve, reject) => {
@@ -84,7 +87,7 @@ class Player {
 }
 // ! ROOMS----------------------
 // Julia's room 
-let player = new Player(["pie", "tacos", "letter"]);
+let player = new Player([]);
 
 
 let kitchen = new Room({
@@ -102,7 +105,7 @@ let kitchen = new Room({
 let lair = new Room({
   name: "Jonas' Lair",
   inventory: ["nes"],
-  description: "You are now in Jonas’ Lair. We never get to see much of his space from his camera view, and you wonder, italics Is it because he’s hiding something? End italics.  Rob is always making jokes about Jonas’ age and pointing out how young he is. Italics Did it push Jonas to the edge, was he sick of being reminded daily that he can’t drink and he’s barely an adult? End italics Jonas sits at his workspace, his large monitors glowing as he plays Name OF GAME JONAS LIKES. You notice a Nintendo Entertainment System (NES) sitting on a bookshelf. Italics That’s odd, Jonas wasn’t even alive when NES was released, how did he ever get his hands on one? End Italics You see the door that you just came through from Julia’s home, but don’t see any other doors out of here. Italics Could this be a dead end?",  
+  description: "You are now in Jonas’ Lair. We never get to see much of his space from his camera view, and you wonder, italics Is it because he’s hiding something? End italics.  Rob is always making jokes about Jonas’ age and pointing out how young he is. Italics Did it push Jonas to the edge, was he sick of being reminded daily that he can’t drink and he’s barely an adult? End italics Jonas sits at his workspace, his large monitors glowing as he watches 'JavaScript in 100 seconds.' You notice a Nintendo Entertainment System (NES) sitting on a bookshelf. Italics That’s odd, Jonas wasn’t even alive when NES was released, how did he ever get his hands on one? End Italics You see the door that you just came through from Julia’s home, but don’t see any other doors out of here. Italics Could this be a dead end?",  
   people: ["jonas"],
     requiredKey: false,
   isRoomLocked: false,
@@ -115,29 +118,48 @@ let bedroom = new Room({
   inventory: ["guitar"],
   description: "The door with the large A swings open. You go inside. Inside Alice sits on her bed with her guitar sitting nearby. She hums a soft melody that sounds familiar. Is her calmness a facade?, you think to yourself. It's always the quiet ones, always the ones you'd least expect... ",  
   people: ["alice"],
-    requiredKey: "letter",
+    requiredKey: [],
   isRoomLocked: true,
-  possibleRooms: ["kitchen"],
+  possibleRooms: ["kitchen", "msg"],
 });
 
 // -------------Restaurant Taco Gordo
 let restaurant = new Room({
   name: "Taco Gordo",
   inventory: ["margarita", "burrito"],
-  description: " Bienvenid@ a Taco Gordo! Your favorite local taqueria in downtown Burlington Vermont! Your mouth waters from the scent of fresh tortillas, el pastor tacos, and burritos. You notice two familiar figures slumped over at the bar, it’s Nick and Matt, but they’re not looking so good. Nick looks dazed and confused, like he doesn’t know where he is, and he doesn’t appear to have gotten any sleep. He’s also certainly not dressed for the weather. He’s wearing gold short shorts, and a ripped Burlington Code Academy Tshirt. ITALICS Where did Nick get that Tshirt? You wonder, Italics  not even beloved TA Ben Villa has been able to snag one, and why is it ripped? Matt is in complete disarray, his long hair is all over the place and he appears to be passed out at the bar. Italics Are they attempting to drink away their guilt? These are all signs of guilty men. There’s only the staircase back the way you came to Jonas' lair. You notice a full margarita on the bar next to Matt.",  
+  description: " Bienvenid@ a Taco Gordo! Your favorite local taqueria in downtown Burlington,take ma Vermont! Your mouth waters from the scent of fresh tortillas, el pastor tacos, and burritos. You notice two familiar figures slumped over at the bar, it’s Nick and Matt, but they’re not looking so good. Nick looks dazed and confused, like he doesn’t know where he is, and he doesn’t appear to have gotten any sleep. He’s also certainly not dressed for the weather. He’s wearing gold short shorts, and a ripped Burlington Code Academy Tshirt. ITALICS Where did Nick get that Tshirt? You wonder, Italics  not even beloved TA Ben Villa has been able to snag one, and why is it ripped? Matt is in complete disarray, his long hair is all over the place and he appears to be passed out at the bar. Italics Are they attempting to drink away their guilt? These are all signs of guilty men. There’s only the staircase back the way you came to Jonas' lair. You notice a full margarita on the bar next to Matt.",  
   people: ["nick", "matt"],
     requiredKey: [],
   isRoomLocked: false,
   possibleRooms: ["lair"],
 });
+// PHISH CONCERT
+let msg = new Room({
+  name: "Phish Concert",
+  inventory: [],
+  description: "You find yourself at Madison Square Garden In New York City and there seems to be a lot of Vermonters here and it smells a bit like skunk if you catch my drift... What could bring so many Vermonters to the big city? And then it hits you! The 4 day Phish festival. All of sudden you spot Leif in a crowd of tie-dye clad hippes and you remember that the last time you saw Leif he was pretty upset because Rob was planning to take away one of the cohort's vacation days and that would mean Leif would miss a day of the Phish festival. Did he take Rob out of the equation so he could come to all 4 days? He seems extremely pleased to be here.",  
+  people: ["leif"],
+    requiredKey: [],
+  isRoomLocked: false,
+  possibleRooms: ["bedroom", "stage"],
+});
 
+let stage = new Room({
+  name: "Phish Stage",
+  inventory: [],
+  description: "You try to be as inconspicuous as possible as you walk up the steps to the stage.You defintely aren't allowed to be here. On your way up you find a note. It reads, 'You fell down? Why don't GIT up? :)' a dad joke, and not any old dad joke, a Rob dad joke. But what was Rob doing backstage? You make your way to the stage and spot Phish's lead guitarist Trey Anastasio, but what did Trey have to do with Rob's disappearance and why was Rob here?",  
+  people: ["trey", "rob"],
+    requiredKey: [],
+  isRoomLocked: false,
+  possibleRooms: ["concert"],
+  });
 // ! ALL ITEMS ------------------
 
 //  ITEMS  In Julia's kitchen ______________
 let wardrobe = new Item({
   name: "wardrobe",
   description:
-    "The wardrobe opens, the scent of pine and fresh air wafts over you. You are now standing inside the wardrobe. Italics Have you found a secret door to Narnia? End italics  you wonder. You are absolutely giddy with excitement. You feel around in the dark, you find something and you pick it up.  You use the flashlight of your phone to illuminate the object. It’s a, it’s a, IT’s A royal pine car air freshener. Well that explains the smell, you quickly flash your flashlight all around you, just knowing this must be a secret portal. Nope, you’re just standing in an empty dark wardrobe looking like an idiot.",
+    "The wardrobe opens, the scent of pine and fresh air wafts over you. You are now standing inside the wardrobe. Italics Have you found a secret door to Narnia? End italics  you wonder. You are absolutely giddy with excitement. You feel around in the dark, you find something and you pick it up.  You use the flashlight of your phone to illuminate the object. It’s a, it’s a, IT’s A royal pine car air freshener. Well that explains the smell, you quickly flash your flashlight all around you, just knowing this must be a secret portal. Nope, you’re just standing in an empty dark wardrobe looking like an idiot... You exit the wardrobe.",
   inventory: [],
   moveable: false,
     isLocked: true,
@@ -181,7 +203,7 @@ let pie = new Item({
 let julia = new Item({
   name: "Julia",
   description:
-    "'I don’t know what happened!  Rob was here and I stepped out to buy a keg of Heady Topper because after this week of learning about promises from Paul I knew we were all going to need a lot more to drink. When I came back, Rob was gone and the house was in disarray'./n You think to yourself, she’s not wrong about Paul, I still feel like I’m lost in a rabbit hole after this week’s lessons. I could really go for a drink. You stop yourself. Eyes on the prize, no time for drinking we have to find Rob.",
+    "'I don’t know what happened!  Rob was here and I stepped out to buy a keg of Heady Topper because after this week of learning about promises from Paul I knew we were all going to need a lot more to drink. When I came back, Rob was gone and the house was in disarray'. \n You think to yourself, she’s not wrong about Paul, I still feel like I’m lost in a rabbit hole after this week’s lessons. I could really go for a drink. You stop yourself. Eyes on the prize, no time for drinking we have to find Rob.",
   inventory: [],
   moveable: false,
     isLocked: false,
@@ -212,7 +234,7 @@ let jonas = new Item({
 
 let nes = new Item({
   name: "nintendo entertainment system",
-  description:"The bookcase magically opens and a distinct smell washes over you.  Italics What is that smell end italics  You know you’ve smelt it before, but you can’t quite put your finger on it. Then all of a sudden it comes to you! How could you ever forget the smell of slowly roasted, spicy, marinated pork mixed with the sweet and tangy scent of pineapple, with a hint of onion and cilantro. It’s El Pastor Tacos! Your stomach grumbles. What could be down this secret staircway? Do you dare [Enter]?",
+  description:"The bookcase magically opens and a distinct smell washes over you.  Italics What is that smell end italics  You know you’ve smelt it before, but you can’t quite put your finger on it. Then all of a sudden it comes to you! How could you ever forget the smell of slowly roasted, spicy, marinated pork mixed with the sweet and tangy scent of pineapple, with a hint of onion and cilantro. It’s El Pastor Tacos! Your stomach grumbles. What could be down this secret stairway? Do you dare [Enter]?",
   inventory: [],
   moveable: false,
     isLocked: true,
@@ -223,7 +245,7 @@ let nes = new Item({
 // -------- Taco Gordo Restaurant Items ---------
 let nick = new Item({
   name: "Nick",
-  description: "The answer may not lie at the bottom of a margarita, but we should at least check’ He looks at his glass, his eyes filled with sadness and falls silent. “ Italics Nick is clearly trying to drown his sorrows.  He knows more than he is letting on... Ss you look on with concern you notice a to-go order with an A written on it. Nick stirs, 'Do me a favor and bring those to Alice for me, yea? They're her favorite, Baja Fish Tacos [tacos], sans dairy, sans cilantro.",
+  description: "'The answer may not lie at the bottom of a margarita, but we should at least check’ He looks at his glass, his eyes filled with sadness and falls silent. “ Italics Nick is clearly trying to drown his sorrows.  He knows more than he is letting on... As you look on with concern you notice a to-go order with an A written on it. Nick stirs, 'Do me a favor and bring those to Alice, yea? They're her favorite, Baja Fish Tacos [tacos], sans dairy, sans cilantro.",
   inventory: [],
   moveable: false,
     isLocked: false,
@@ -233,7 +255,7 @@ let nick = new Item({
 
 let matt = new Item({
   name: "Matt",
-  description: "Matt jolts awake, disoriented he yells, ‘I didn’t do it! I swear! All I wanted was help on my Zorkington code, I never thought….!’ He looks up from the bar and realizes you are who woke him up, he stops shouting immediately. He whispers, ‘I’ve said too much…’” Italics That sure sounded like a confession to me. You know what they say only children and people when they are drunk tell the truth.",
+  description: "Matt jolts awake, disoriented he yells, ‘I didn’t do it! I swear! All I wanted was help on my Zorkington code, I never thought….!’ He looks up from the bar and realizes you are who woke him up, he stops shouting immediately. He whispers, ‘I’ve said too much…’” Italics That sure sounded like a confession to me. You know what they say, only children and people when they are drunk tell the truth.",
   inventory: [],
   moveable: false,
     isLocked: false,
@@ -280,61 +302,90 @@ let tacos = new Item({
 // ---------------Alice items --------
 let alice = new Item({
   name: "Alice",
-  description: "Alice finishes her tacos and sighs with relief. 'I'm so glad your here I don't know what happened! Rob ran through here out of nowhere and someone was chasing him. I didn't get a good look at who it was because I was looking for my pie. Wait a second, I remember something! Someone was yelling about fish? Does that make any sense to you?'",
-  inventory: ["pick"],
+  description: "Alice finishes her tacos and a piece of her pie and sighs with relief. 'I'm so glad you're here! I don't know what happened! Rob ran through here out of nowhere and someone was chasing him. I didn't get a good look at who it was because I was looking for my pie. Wait a second, I remember something! Someone was yelling about fish? Does that make any sense to you?'",
+  inventory: [],
   moveable: false,
     isLocked: true,
-    lockedMessage: "'Thank goodness, you're here! Did you get my tacos and pie! I can't think straight without them!'",
+    lockedMessage: "'Thank goodness, you're here! Did you find my tacos and pie? I can't think straight without them!'",
   requiredKey: ["tacos", "pie"]
 });
 
 let doora = new Item({
   name: "Door A",
-  description: "You slip the letter under the door and hear footsteps, 'Alice?', you call out. You hear the lock click and a welcoming voice says 'Come on in...'",
+  description: "You slip the letter under the [bedroom] door and hear footsteps, 'Alice?', you call out. You hear the lock click and a welcoming voice says 'Come on in...'",
   inventory: [],
   moveable: false,
     isLocked: true,
-    lockedMessage: "The wooden door has a beautifully carved A and you wonder what it stands for. There's a mail slot with dancing cats around it. Maybe you should try to open the door?",
+    lockedMessage: "The wooden door has a beautifully carved A and you wonder what it stands for. There's a mail slot with dancing cats around it. Maybe you should try to open doorA?",
   requiredKey: "letter"
 });
 
 let pick = new Item({
   name: "guitar pick",
-  description: "You look at the guitar pick. Wait a second, you've seen this somewhere before... And all of a sudden you realize, the poster you see daily behind Leif! Alice said someone was yelling about fish, did she mean Phish?",
+  description: "You look at the guitar pick. Wait a second, you've seen this somewhere before... And all of a sudden you realize, the poster you see daily behind Leif! But what was that of?",
   inventory: [],
   moveable: true,
-    isLocked: true,
+    isLocked: false,
     lockedMessage: [],
   requiredKey: []
 });
 
 let guitar = new Item({
   name: "guitar",
-  description: "You look at the guitar pick. Wait a second, you've seen this somewhere before... And all of a sudden you realize, the poster you see daily behind Leif! Alice said someone was yelling about fish, did she mean Phish?",
+  description: "You strum on the guitar and suddenly you realize the song Alice was humming was Run Like An Antelope by Phish, how could you ever forget Vermont's famous band!? When Alice said someone was yelling about Fish, did she mean PHISH? You play Run Like An Antelope and suddenly a secret passage to Madison Square Garden [MSG] opens under Alice's bed! As you prepare to leave, Alice says, 'take my guitar, you never know, you might need it.'",
   inventory: [],
   moveable: true,
     isLocked: true,
     lockedMessage: "The guitar is beautiful, but you have no pick to play it with.",
-  requiredKey: ["pick"]
+  requiredKey: "pick"
 });
-
+// --------------Concert items
+let leif = new Item({
+  name: "Leif",
+  description: "Leif looks lovingly toward the clouds. 'Whoaaaaa! Where did you come from?! I didn't realize you were such a Phish fan, but sooooo excited you're here', he trails off still smiling at the clouds. 'Leif, you shake him, I'm looking for Rob. And my investigation has brought me to you! Did you do something to him?' 'No way dudeeee, the only thing I did was share my peace and loveeeeee.' While rolling your eyes you spot a well-hidden entrance up to the stage." ,
+  inventory: [],
+  moveable: true,
+    isLocked: false,
+    lockedMessage: [],
+  requiredKey: []
+});
+let rob = new Item({
+  name: "guitar pick",
+  description: "You look at the guitar pick. Wait a second, you've seen this somewhere before... And all of a sudden you realize, the poster you see daily behind Leif! But what was that of?",
+  inventory: [],
+  moveable: true,
+    isLocked: false,
+    lockedMessage: [],
+  requiredKey: []
+});
+let trey = new Item({
+  name: "Trey Anastasio",
+  description: "You hand Trey, Alice's guitar. 'I have a surprise for you,' Trey says. You're not a big fan of surprises, especially not in the middle of a kidnapping investigation. Your facial expression must have given you away, because Trey comments, 'Trust me, this is going to blow you away.' He brings you just off stage where you'll have an upclose view of the band. You start to protest, but he walks away, shouting over his shoulder, 'When the music starts I need you to start dancing!' Moments later the band enters the stage and the opening notes of Divided Sky ring out.",
+  inventory: [],
+  moveable: true,
+    isLocked: true,
+    lockedMessage: "'Who are you and what are you doing back here? You can't be back here.' You respond, 'I'm looking for my beloved instructor, Rob. Trey, I need to know, Vermonter to Vermonter, do you know who took him, did you help them? All roads have led here.' 'Whoa, whoa there young buck, I had nothing to do with any kidnapping, but maybe we can help each other. We're on in two minutes and I'm short an accoustic guitar. Can you help me find an acoustic guitar?' You find yourself thinkimg about Alice's guitar!",
+  requiredKey: []
+});
 // !-------------------Lookup tables -------------------
 let roomLookUp = {
     kitchen: kitchen,
     lair: lair,
 // bedroom: doora,
   bedroom: bedroom,
-    restaurant: restaurant
+  restaurant: restaurant,
+  msg: msg,
+    stage: stage
 };
 let CommandLookup = 
  ["move", "enter", "walk", "go", "move to", "go to",
   "pick", "grab", "take", "pickup", "drop", "discard","ask", "speak", "question", "talk", "help", "inventory",
   "unlock", "open","solve",
-  "room","view", "look", "see", "read", "examine", "inspect", "study", "check", "play", "turn on", "on", "eat", "drink"]
+  "room","view", "look", "see", "read", "examine", "inspect", "study", "check", "play", "turn on", "on", "eat", "drink", "give", "feed", "bring to", "pass","present"]
 ;
   
 let allTargets =
-  ["clock", "wardrobe","julia","pie", "elena","key", "nes", "jonas", "kitchen", "bedroom", "restaurant", "lair", "inventory", "room inventory","doora", "player inventory", "matt", "nick", "burrito", "margarita", "tacos","letter", "alice", "guitar", "pick", ];
+  ["clock", "wardrobe","julia","pie", "elena","key", "nes", "jonas", "kitchen", "bedroom", "restaurant", "lair", "inventory", "room inventory","doora", "player inventory", "matt", "nick", "burrito", "margarita", "tacos","letter", "alice", "guitar", "pick","msg", "stage", "leif", "rob", "trey" ];
   
 let itemLookUp = {
   clock: clock,
@@ -354,16 +405,20 @@ let itemLookUp = {
   tacos: tacos,
 pick: pick,
   guitar: guitar,
-doora:doora
+  doora: doora,
+  leif: leif,
+  rob: rob, 
+trey:trey,
 };
 
 let interactionLookUp = {
   // pickUp: ["key", "note", "pick"],
-  talkTo: ["julia", "elena", "jonas", "nick", "matt", "alice" ],
-  rooms: ["kitchen", "lair", "restaurant", "bedroom", "concert"],
+  talkTo: ["julia", "elena", "jonas", "nick", "matt", "alice", "trey", "rob", ],
+  rooms: ["kitchen", "lair", "restaurant", "bedroom", "concert", "stage"],
   canEat: ["burrito"],
   canDrink: ["margarita"],
   open: ["wardrobe", "doora", "bedroom"],
+  give: ["alice", "trey"]
 };
 
 
@@ -380,7 +435,8 @@ let commandWords = {
   room: ["room"],
   view: ["view", "look", "see", "read", "examine", "inspect", "study", "check", "play", "turn on"],
   eat: ["eat", "devour", "consume", "ingest"],
-  drink: ["drink", "chug"]
+  drink: ["drink", "chug"],
+  give: ["bring to", "give", "feed","pass","present",]
 };
 let currentLocation = "kitchen";
 
@@ -400,153 +456,190 @@ async function playNes() {
         target = console.log("You are too young to enter this room. Maybe you should tell a white lie.");
       }
     }
-  }
-    
+}
+  // ----- Special Play guitar function to push Madison Square Garden to possible rooms
+function playGuitar() {
+      bedroom.possibleRooms.push("msg");
+
+    }
 
   
   // view inventory
 
   start();
-  async function start() {
-    await ask(
-      "You find yourself in great distress, your beloved instructor, Rob Vanarsdall, has been kidnapped! (* GASP*) Your classmates are beside themselves, but is it a coverup? Did one of them kidnap Rob to avoid completing their Zorkington project or are they truly innocent? It will be up to you to discover the truth. You are outside the Upright Mansion, where each door is a portal to another student's location. It is up to you to figure out who has kidnapped Rob and to return him to his beloved students. Press any key to enter."
-    );
+async function start() {
+  console.log( green +`                                  {} {}
+                          !  !  ! II II !  !  !
+                       !  I__I__I_II II_I__I__I  !
+                       I_/|__|__|_|| ||_|__|__|\\_I
+                    ! /|_/|  |  | || || |  |  |\\_|\\ !
+        .--.        I//|  |  |  | || || |  |  |  |\\\\I        .--.
+       /-   \\    ! /|/ |  |  |  | || || |  |  |  | \\|\\ !    /=   \\
+       \\=__ /    I//|  |  |  |  | || || |  |  |  |  |\\\\I    \\-__ /
+        }  {  ! /|/ |  |  |  |  | || || |  |  |  |  | \\|\\ !  }  {
+       {____} I//|  |  |  |  |  | || || |  |  |  |  |  |\\\\I {____}
+ _!__!__|= |=/|/ |  |  |  |  |  | || || |  |  |  |  |  | \\|\\=|  |__!__!_
+ _I__I__|  ||/|__|__|__|__|__|__|_|| ||_|__|__|__|__|__|__|\\||- |__I__I_
+ -|--|--|- ||-|--|--|--|--|--|--|-|| ||-|--|--|--|--|--|--|-||= |--|--|-
+  |  |  |  || |  |  |  |  |  |  | || || |  |  |  |  |  |  | ||  |  |  |
+  |  |  |= || |  |  |  |  |  |  | || || |  |  |  |  |  |  | ||= |  |  |
+  |  |  |- || |  |  |  |  |  |  | || || |  |  |  |  |  |  | ||= |  |  |
+  |  |  |- || |  |  |  |  |  |  | || || |  |  |  |  |  |  | ||- |  |  |
+ _|__|__|  ||_|__|__|__|__|__|__|_|| ||_|__|__|__|__|__|__|_||  |__|__|_
+ -|--|--|= ||-|--|--|--|--|--|--|-|| ||-|--|--|--|--|--|--|-||- |--|--|-
+  jgs|  |- || |  |  |  |  |  |  | || || |  |  |  |  |  |  | ||= |  |  |
+ ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^~~~~~~~~~~~` + magenta)
+  await ask(
+    "You find yourself in great distress, your beloved instructor, Rob Vanarsdall, has been kidnapped! (* GASP*) Your classmates are beside themselves, but is it a coverup? Did one of them kidnap Rob to avoid completing their Zorkington project or are they truly innocent? It will be up to you to discover the truth. You are outside the Upright Mansion, where each door is a portal to another student's location. It is up to you to figure out who has kidnapped Rob and to return him to his beloved students. Press any key to enter." + white
+  );
 
-    console.log();
-    console.log(roomLookUp[currentLocation].description);
+  console.log();
+  console.log(roomLookUp[currentLocation].description);
 
-    let answer;
-    while (answer !== "quit") {
-      let answer = (await ask(">_")).toLowerCase().trim().split(" ");
-      let command = answer[0];
-      let target = answer[answer.length - 1];
-      let twoWordTarget = answer
-        .slice(answer.length - 2, answer.length)
-        .join(" ");
-      console.log(answer);
-      console.log(command, target);
-      console.log(twoWordTarget);
+  let answer;
+  while (answer !== "quit") {
+    let answer = (await ask(">_")).toLowerCase().trim().split(" ");
+    let command = answer[0];
+    let target = answer[answer.length - 1];
+    let twoWordTarget = answer
+      .slice(answer.length - 2, answer.length)
+      .join(" ");
+  
 
-      // !cool way jonas and I worked out, but hard to use look up table after
-      // if (Object.keys(commands).includes(commandWords.includes(command))) {
-      //     commands[command](target);
-      // }
+    // !cool way jonas and I worked out, but hard to use look up table after
+    // if (Object.keys(commands).includes(commandWords.includes(command))) {
+    //     commands[command](target);
+    // }
     
-      console.log(CommandLookup.includes(command));
+   
 
-      console.log(allTargets.includes(target))
+    if (command == "dance" && currentLocation== "stage")
+    {
+      await ask("You start to dance and as Divided Sky's last notes fade into the distance, a familiar silhouette comes onto stage. You can hardely believe your eyes! Trey steps up to the microphone. 'Everyone give a warm welcoem to our newest guitarist, Robert Vanarsdall!' The crowd errupts in screams and applause!'");
+     
+      console.log("Rob grabs a microphone in his hand and shouts 'I'VE QUIT MY JOB AND RUN AWAY TO BE A ROCKSTAR!' The crowd errupts in screams once more. He begins belting out the lyrics of Bathtub Gin, and the rest of Phish join him. Well, I guess Rob wasn't kidnapped after all... ");
+      process.exit();
 
+  }
+    if (command == target || allTargets.includes(target) == false || CommandLookup.includes(command) == false) {
+      console.log("That is not a command I understand.");
+    }
+    //    ! ---------------View Room Inventory--------------------
+    else if (
+      commandWords.view.includes(command) &&
+      (twoWordTarget === "room inventory")
+    ) {
+      roomLookUp[currentLocation].viewRoomInventory();
+    }
 
-      if (command == target || allTargets.includes(target) == false || CommandLookup.includes(command) == false) {
-        console.log("That is not a command I understand.");
-      }
-      //    ! ---------------View Room Inventory--------------------
-      else if (
-        commandWords.view.includes(command) &&
-        (twoWordTarget === "room inventory")
-      ) {
-        roomLookUp[currentLocation].viewRoomInventory();
-      }
-
-      //     //! View Player Inventory-------------------------
-      else if (
-        commandWords.view.includes(command) &&
-        twoWordTarget == "player inventory"
-      ) {
-        console.log(
-          "You have the following inventory:" + playerInventory.join(", ")
-        );
-      }
-      // ! Correcting for if player just says view inventory need them to specify. 
-      else if (commandWords.view.includes(command) && target == "inventory") {
-        console.log("Please specify if you would like to view the room inventory or the player inventory.");
-      }
+    //     //! View Player Inventory-------------------------
+    else if (
+      commandWords.view.includes(command) &&
+      twoWordTarget == "player inventory"
+    ) {
+      console.log(
+        "You have the following inventory:" + player.inventory.join(", ")
+      );
+    }
+    // ! Correcting for if player just says view inventory need them to specify. 
+    else if (commandWords.view.includes(command) && target == "inventory") {
+      console.log("Please specify if you would like to view the room inventory or the player inventory.");
+    }
         
-      //   ! ---------------- Pickup Item --------------------
-      else if (commandWords.pickup.includes(command)) {
-        let roomInventory = roomLookUp[currentLocation].inventory;
-        let currentItem = itemLookUp[target];
+    //   ! ---------------- Pickup Item --------------------
+    else if (commandWords.pickup.includes(command)) {
+      let roomInventory = roomLookUp[currentLocation].inventory;
+      let currentItem = itemLookUp[target];
 
-        console.log(roomInventory);
+      console.log(roomInventory);
 
-        // If already in players inventory
-        if (playerInventory.includes(target)) {
-          console.log("You already have the " + target + " in your inventory");
-          console.log(playerInventory.join(", "));
-        }
-        // special message for margarita so player has to drink it in restaurant
-      
-        else if (restaurant.inventory.includes("margarita") && target == "margarita" && currentLocation == "restaurant") {
-          console.log("'Sorry, I can't let you take alcohol to go', a bartender warns from afar.");
-        }
-        else if (
-          roomInventory.includes(target) &&
-          currentItem.moveable == true
-        ) {
-          player.addInventory(target);
-          console.log("You picked up the " + target + ".");
-          roomLookUp[currentLocation].removeInventory(target);
-        }
-        else if ((clock).inventory.includes(target) && (roomLookUp[currentLocation].name === "Julia's kitchen")) {
-          console.log("You have picked up the H Key!");
-          player.addInventory(target);
-          clock.inventory.pop("key")
-          console.log(clock.inventory)
-        }
-        // TODO that item isn't in this room if we want a different message
-        // else if (!(roomLookUp[currentLocation].includes(target))){
-        //   console.log("That item isn't in this room.")
-        //   
-        else {
-          console.log("You can't take that. Stop messing around Rob needs us!");
-        }
+      // If already in players inventory
+      if (player.inventory.includes(target)) {
+        console.log("You already have the " + target + " in your inventory");
+        console.log(player.inventory.join(", "));
       }
+      // special message for margarita so player has to drink it in restaurant
       
-      //   ! Inspect an item in the room ----------------------- 
+      else if (restaurant.inventory.includes("margarita") && target == "margarita" && currentLocation == "restaurant") {
+        console.log("'Sorry, I can't let you take alcohol to go', a bartender warns from afar.");
+      }
+      else if (
+        roomInventory.includes(target) &&
+        currentItem.moveable == true
+      ) {
+        player.addInventory(target);
+        console.log("You picked up the " + target + ".");
+        roomLookUp[currentLocation].removeInventory(target);
+      }
+      else if ((clock).inventory.includes(target) && (roomLookUp[currentLocation].name === "Julia's kitchen")) {
+        console.log("You have picked up the H Key!");
+        player.addInventory(target);
+        clock.inventory.pop("key")
+        console.log(clock.inventory)
+      }
+      // TODO that item isn't in this room if we want a different message
+      // else if (!(roomLookUp[currentLocation].includes(target))){
+      //   console.log("That item isn't in this room.")
+      //   
+      else {
+        console.log("You can't take that. Stop messing around Rob needs us!");
+      }
+    }
+      
+    //   ! Inspect an item in the room ----------------------- 
           
-      else if (commandWords.view.includes(command)) {
-        if (target == "nes" && currentLocation == "lair") {
-          console.log(nes.lockedMessage);
-          await playNes()
+    else if (commandWords.view.includes(command)) {
+      if (target == "nes" && currentLocation == "lair") {
+        console.log(nes.lockedMessage);
+        await playNes();
+      }
+     
+      // Didn't want player to continue to see key in clock if it is removed
+      else if (target == "clock" && currentLocation == "kitchen" && (clock.inventory.length == 0)) {
+        console.log("The clock looks odd with no hour hand.");
+      }
+      else if (itemLookUp[target].isLocked == false && ((roomLookUp[currentLocation].inventory.includes(target)) || player.inventory.includes(target))) {
+        console.log(itemLookUp[target].description);
+      }
+
+      else if (itemLookUp[target].isLocked === true && ((roomLookUp[currentLocation].inventory.includes(target)) || player.inventory.includes(target))) {
+        console.log(itemLookUp[target].lockedMessage);
+      }
+       else {
+        console.log("That item is not here.")
+      }
+         if (target == "guitar" && currentLocation == "bedroom") {
+        playGuitar();
+      }
+     
+          
+    }
+
+    //   ! OPEN Item 
+    //   Have key 
+    else if (commandWords.unlock.includes(command)) {
+      if (roomLookUp[currentLocation].inventory.includes(target)) {
+        // need a special case for alice's room in which opening doora also opens her room. 
+        if (target == "doora" && player.inventory.includes("letter")) {
+          console.log(doora.description);
+          player.removeInventory("letter");
+          doora.isLocked = false;
+          bedroom.isRoomLocked = false;
+          bedroom.addInventory("letter");
+          console.log(bedroom.isRoomLocked);
+           
         }
-        // Didn't want player to continue to see key in clock if it is removed
-        else if (target == "clock" && currentLocation == "kitchen" && (clock.inventory.length==0)) {
-          console.log("The clock looks odd with no hour hand.");
-        }
-        else if (itemLookUp[target].isLocked === false && (roomLookUp[currentLocation].inventory.includes(target))) {
+          
+        else if (target == "doora" && doora.isLocked == false) { console.log("The door to Alice's bedroom is unlocked.") }
+        else if (player.inventory.includes(itemLookUp[target].requiredKey)) {
           console.log(itemLookUp[target].description);
+          itemLookUp[target].isLocked = false;
         }
-
-        else if (itemLookUp[target].isLocked === true && (roomLookUp[currentLocation].inventory.includes(target))) {
-          console.log(itemLookUp[target].lockedMessage);
+        else if (interactionLookUp.open.includes(target)) {
+          console.log("You don't have the right key to open this.")
         }
-        else {
-          console.log("That item is not here.")
-        }
-          
-      }
-
-      //   ! OPEN Item 
-      //   Have key 
-      else if (commandWords.unlock.includes(command)) {
-        if (roomLookUp[currentLocation].inventory.includes(target)) {
-          // need a special case for alice's room in which opening doora also opens her room. 
-          if (target = "doora" && playerInventory.includes("letter")) {
-            console.log(doora.description);
-            player.removeInventory("letter");
-            doora.isLocked == false
-            bedroom.isLocked == false;
-            bedroom.addInventory("letter");
-          }
-          else if (playerInventory.includes(itemLookUp[target].requiredKey)) {
-            console.log(itemLookUp[target].description);
-            itemLookUp[target].isLocked = false;
-          }
-          else if (interactionLookUp.open.includes(target)) {
-            console.log("You don't have the right key to open this.")
-          }
         
-        }
+      }
       
       else {
         console.log("You can't open that. No time for games! ROB NEEDS YOU!");
@@ -556,97 +649,132 @@ async function playNes() {
     
   
         
-      //   ! Speak to ------------
+    //   ! Speak to ------------
     else if (commandWords.talk.includes(command)) {
-        // woth nick we are going to push a new inventory item. can only get this item if you talk to nick.
-        if (target == "nick" && currentLocation == "restaurant") {
-          console.log(nick.description);
-         roomLookUp[currentLocation].addInventory("tacos");
-        }
-        else if (/*interactionLookUp.talkTo.includes(target) && */roomLookUp[currentLocation].people.includes(target) && itemLookUp[target].isLocked === false) {
-          console.log(itemLookUp[target].description);
-        }
-          // you have the key for the person then you should get their description. 
-        else if (/* interactionLookUp.talkTo.includes(target) && */ roomLookUp[currentLocation].people.includes(target) && playerInventory.includes(itemLookUp[target].requiredKey)) {
-          itemLookUp[target].description;
-          itemLookUp[target].isLocked == false;
-          playerInventory.removeInventory[requiredKey];
-          
-          }
-          
-        else if(/*interactionLookUp.talkTo.includes(target) && */roomLookUp[currentLocation].people.includes(target) && itemLookUp[target].isLocked === true){
-          console.log(itemLookUp[target].lockedMessage);
-        }
-        else { console.log("You cannot speak to that person.")}
+      // with nick we are going to push a new inventory item. can only get this item if you talk to nick.
+      if (target == "nick" && currentLocation == "restaurant") {
+        console.log(nick.description);
+        roomLookUp[currentLocation].addInventory("tacos");
       }
+      else if (/*interactionLookUp.talkTo.includes(target) && */roomLookUp[currentLocation].people.includes(target) && itemLookUp[target].isLocked === false) {
+        console.log(itemLookUp[target].description);
+      }
+      // you have the key for the person then you should get their description. 
+      else if (/* interactionLookUp.talkTo.includes(target) && */ roomLookUp[currentLocation].people.includes(target) && player.inventory.includes(itemLookUp[target].requiredKey)) {
+        itemLookUp[target].description;
+        itemLookUp[target].isLocked = false;
+        player.removeInventory[requiredKey];
+          
+      }
+          
+      else if (/*interactionLookUp.talkTo.includes(target) && */roomLookUp[currentLocation].people.includes(target) && itemLookUp[target].isLocked === true) {
+        console.log(itemLookUp[target].lockedMessage);
+      }
+      else { console.log("You cannot speak to that person.") }
+    }
 
-      // ! MOVE Rooms -------------
-      else if (commandWords.movement.includes(command)) {
-        let currentPossibleRooms = roomLookUp[currentLocation].possibleRooms;
-        if (currentPossibleRooms.includes(target)) {
-          if (roomLookUp[target].isRoomLocked == false) {
+    // ! MOVE Rooms -------------
+    else if (commandWords.movement.includes(command)) {
+      let currentPossibleRooms = roomLookUp[currentLocation].possibleRooms;
+      if (currentPossibleRooms.includes(target)) {
+        if (roomLookUp[target].isRoomLocked == false) {
             
-            currentLocation = target;
-            console.log(roomLookUp[currentLocation].description);
-          }
-            else if(playerInventory.includes(roomLookUp[target].requiredKey)) {
+          currentLocation = target;
+          console.log(roomLookUp[currentLocation].description);
+        }
+        else if (player.inventory.includes(roomLookUp[target].requiredKey)) {
           // prints the new room description.
           console.log(roomLookUp[target].description);
-            roomLookUp[target].isLocked = false;
-            currentLocation = target;
-            // You need to set the isDoorLocked = true
-          } else {
-            console.log("This door is locked.");
-          }
+          roomLookUp[target].isRoomLocked = false;
+          currentLocation = target;
+          // You need to set the isDoorLocked = true
         } else {
-          // NOT A ROOM
-          console.log("You cannot get to that room from here.");
+          console.log("This door is locked.");
         }
+      } else {
+        // NOT A ROOM You can move to 
+        console.log("You cannot get to that room from here.");
       }
+    }
   
-      // !----------- Eat------
-      else if (commandWords.eat.includes(command)) {
-        if (interactionLookUp.canEat.includes(target) && roomLookUp[currentLocation].inventory.includes(target)) {
-          console.log(itemLookUp[target].description);
-          console.log();
-          // right now only eating burrito so can add letter. If eat something need to change this.
-          roomLookUp[currentLocation].removeInventory(target);
-          player.addInventory("letter");
-          console.log(itemLookUp["letter"].description);
-        }
-        // If player picked up but later figure out they need to eat it.
-        else if (playerInventory.includes(target)) {
-          playerInventory.removeInventory(target);
-          player.addInventory("letter");
-          console.log(itemLookUp["letter"].description);
+    // !----------- Eat------
+    else if (commandWords.eat.includes(command)) {
+      if (interactionLookUp.canEat.includes(target) && roomLookUp[currentLocation].inventory.includes(target)) {
+        console.log(itemLookUp[target].description);
+        console.log();
+        // right now only eating burrito so can add letter. If eat something need to change this.
+        roomLookUp[currentLocation].removeInventory(target);
+        player.addInventory("letter");
+        console.log(itemLookUp["letter"].description);
+      }
+      // If player picked up but later figure out they need to eat it.
+      else if (player.inventory.includes(target)) {
+        player.removeInventory(target);
+        player.addInventory("letter");
+        console.log(itemLookUp["letter"].description);
           
-        }
-        else if (target == "pie" && currentLocation == "kitchen" || target == "tacos" && currentLocation == "restaurant"){
-          console.log("You can't eat that! It is for Alice!");
-        }
-        else {
-          console.log("This is no time for shenanigans! You can't eat that!");
-        }
+      }
+      else if (target == "pie" && currentLocation == "kitchen" || target == "tacos" && currentLocation == "restaurant") {
+        console.log("You can't eat that! It is for Alice!");
+      }
+      else {
+        console.log("This is no time for shenanigans! You can't eat that!");
+      }
         
+    }
+    
+    // ! --------Drink-------------
+    // Same as eat just don't want people to be able to say eat margarita. Add burrito to room inventory after you drink marg.
+        
+    else if (commandWords.drink.includes(command)) {
+      if ((interactionLookUp.canDrink.includes(target) && roomLookUp[currentLocation].inventory.includes(target)) || player.inventory.includes(target)) {
+        console.log(itemLookUp[target].description);
+        roomLookUp[currentLocation].removeInventory(target);
+      }
+      else if (interactionLookUp.canDrink.includes(target)) { console.log("You already drank that! Did you forget already? Maybe that drink wasn't the best idea."); }
+      else {
+        console.log("This is no time for shenanigans! You can't drink that!");
+      }
+        
+    }
+   
+  
+  
+
+// ! -------------- GIVE (Similar idea to drop but give to a person)----------
+    else if (commandWords.give.includes(command))
+    {
+      if (currentLocation == "bedroom" && answer.includes("tacos") && answer.includes("pie") && answer.includes("alice") && player.inventory.includes("tacos") && player.inventory.includes("pie")) {
+        console.log(alice.description);
+        alice.isLocked = false;
+        player.removeInventory("tacos");
+        player.removeInventory("pie");
+        console.log("Also, I found this pick on the ground. She hands you the pick.")
+        player.addInventory("pick");
+        guitar.isLocked = false;
       }
     
-// ! --------Drink-------------
-        // Same as eat just don't want people to be able to say eat margarita. Add burrito to room inventory after you drink marg.
+      else if (answer.includes("alice"))
+      { console.log("I need both the pie and tacos to think straight!") }
         
-        else if (commandWords.drink.includes(command)) {
-        if ((interactionLookUp.canDrink.includes(target) && roomLookUp[currentLocation].inventory.includes(target)) || playerInventory.includes(target)) { 
-          console.log(itemLookUp[target].description);
-            roomLookUp[currentLocation].removeInventory(target);
-        }
-        else if (interactionLookUp.canDrink.includes(target))
-        { console.log("You already drank that! Did you forget already? Maybe that drink wasn't the best idea."); }
-        else {
-          console.log("This is no time for shenanigans! You can't drink that!");
-        }
-        
+      else if (currentLocation == "stage" && answer.includes("guitar") && answer.includes("trey")) {
+        console.log(trey.description);
+}
+      else {
+        console.log("You can't give that ! Come on this is serious! We have to find Rob before it's too late!");
       }
-   
-    }
-  }
       
+    }
 
+    // ! ------- Drop IT LIKE IT's HOT! 
+    else if (commandWords.drop.includes(command))
+    {
+      player.removeInventory(target);
+      roomLookUp[currentLocation].addInventory(target);
+      console.log("You just dropped the " + target + " like it's hot in the " + roomLookUp[currentLocation].name + ".")
+      
+    }
+    
+    // ! -----------
+  }
+}
