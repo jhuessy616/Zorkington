@@ -70,9 +70,12 @@ class Player {
     return this.inventory;
   }
   removeInventory(itemToBeRemoved) {
+    console.log(itemToBeRemoved);
+    console.log(this.inventory);
     this.inventory = this.inventory.filter(
-      (currentInventory) => currentInventory.item !== itemToBeRemoved
+      (currentInventory) => currentInventory !== itemToBeRemoved
     );
+    console.log(this.inventory);
   }
 
   doesPlayerHaveCorrectItem(item) {
@@ -81,18 +84,18 @@ class Player {
 }
 // ! ROOMS----------------------
 // Julia's room 
-let player = new Player([]);
-let playerInventory = player.inventory;
+let player = new Player(["pie", "tacos", "letter"]);
+
 
 let kitchen = new Room({
   name: "Julia's kitchen",
-  inventory: ["clock", "wardrobe", "pie"],
+  inventory: ["clock", "wardrobe", "pie", "doora"],
   description:
-    "You are at Julia’s grandmother’s also known as Homeplace, a sign in the kitchen says ‘There’s no place like Homeplace’ and you can’t decide if it’s sweet or menacing.What kind of secrets do these walls hold? Elena has come for a potluck and the table is flipped and food is all over the floor, but a freshly baked pie sits unharmed on top of the oven. You wonder italics Would Elena have kidnapped Rob to take over his job, is this an attempt to move up the corporate ladder by taking out her direct superior? Julia is in the corner looking distraught. Julia, who is always talking… has it all been a cover to hide the truth? A large grandfather clock [clock] chimes 10 oclock  and you notice a wardrobe large enough to store a body in the corner of the room. There's also a door to Jonas’s lair and a door marked with a large A [doorA].",
+    "You are at Julia’s grandmother’s also known as Homeplace, a sign in the kitchen says ‘There’s no place like Homeplace’ and you can’t decide if it’s sweet or menacing.What kind of secrets do these walls hold? Elena has come for a potluck and the table is flipped and food is all over the floor, but a freshly baked pie sits unharmed on top of the oven. You wonder italics Would Elena have kidnapped Rob to take over his job, is this an attempt to move up the corporate ladder by taking out her direct superior? Julia is in the corner looking distraught. Julia, who is always talking… has it all been a cover to hide the truth? A large grandfather clock chimes 10 oclock  and you notice a wardrobe large enough to store a body in the corner of the room. There's also a door to Jonas’s lair and a door marked with a large A [doorA].",
   people: ["julia", "elena"],
     requiredKey: false,
   isRoomLocked: false,
-  possibleRooms: ["lair", "doora"],
+  possibleRooms: ["lair", "bedroom"],
 });
 
 //  Jonas's Lair 
@@ -281,18 +284,18 @@ let alice = new Item({
   inventory: ["pick"],
   moveable: false,
     isLocked: true,
-    lockedMessage: "'Thank goodness, you're here! Did you get my tacos and pie! I can't think straight without them'",
+    lockedMessage: "'Thank goodness, you're here! Did you get my tacos and pie! I can't think straight without them!'",
   requiredKey: ["tacos", "pie"]
 });
 
 let doora = new Item({
-  name: "doora",
-  description: "You slip the letter under the door and hear footsteps, 'Alice?', you call out. You hear the lock click and a welcoming voice says 'Come on in...",
+  name: "Door A",
+  description: "You slip the letter under the door and hear footsteps, 'Alice?', you call out. You hear the lock click and a welcoming voice says 'Come on in...'",
   inventory: [],
   moveable: false,
     isLocked: true,
-    lockedMessage: "The wooden door has a Beautifully carved A and you wonder what it stands for. You try the door knob, locked.",
-  requiredKey: ["letter"]
+    lockedMessage: "The wooden door has a beautifully carved A and you wonder what it stands for. There's a mail slot with dancing cats around it. Maybe you should try to open the door?",
+  requiredKey: "letter"
 });
 
 let pick = new Item({
@@ -319,7 +322,7 @@ let guitar = new Item({
 let roomLookUp = {
     kitchen: kitchen,
     lair: lair,
-  doora: bedroom,
+// bedroom: doora,
   bedroom: bedroom,
     restaurant: restaurant
 };
@@ -350,7 +353,8 @@ let itemLookUp = {
   alice: alice,
   tacos: tacos,
 pick: pick,
-guitar:guitar,
+  guitar: guitar,
+doora:doora
 };
 
 let interactionLookUp = {
@@ -359,7 +363,7 @@ let interactionLookUp = {
   rooms: ["kitchen", "lair", "restaurant", "bedroom", "concert"],
   canEat: ["burrito"],
   canDrink: ["margarita"],
-  open: ["wardrobe", "doora"],
+  open: ["wardrobe", "doora", "bedroom"],
 };
 
 
@@ -453,7 +457,7 @@ async function playNes() {
           "You have the following inventory:" + playerInventory.join(", ")
         );
       }
-  // ! Correcting for if player just says view inventory need them to specify. 
+      // ! Correcting for if player just says view inventory need them to specify. 
       else if (commandWords.view.includes(command) && target == "inventory") {
         console.log("Please specify if you would like to view the room inventory or the player inventory.");
       }
@@ -470,7 +474,7 @@ async function playNes() {
           console.log("You already have the " + target + " in your inventory");
           console.log(playerInventory.join(", "));
         }
-      // special message for margarita so player has to drink it in restaurant
+        // special message for margarita so player has to drink it in restaurant
       
         else if (restaurant.inventory.includes("margarita") && target == "margarita" && currentLocation == "restaurant") {
           console.log("'Sorry, I can't let you take alcohol to go', a bartender warns from afar.");
@@ -486,11 +490,13 @@ async function playNes() {
         else if ((clock).inventory.includes(target) && (roomLookUp[currentLocation].name === "Julia's kitchen")) {
           console.log("You have picked up the H Key!");
           player.addInventory(target);
+          clock.inventory.pop("key")
+          console.log(clock.inventory)
         }
-          // TODO that item isn't in this room if we want a different message
+        // TODO that item isn't in this room if we want a different message
         // else if (!(roomLookUp[currentLocation].includes(target))){
         //   console.log("That item isn't in this room.")
-        //   }
+        //   
         else {
           console.log("You can't take that. Stop messing around Rob needs us!");
         }
@@ -504,7 +510,7 @@ async function playNes() {
           await playNes()
         }
         // Didn't want player to continue to see key in clock if it is removed
-        else if (target == "clock" && currentLocation == "kitchen" && playerInventory.includes("key")) {
+        else if (target == "clock" && currentLocation == "kitchen" && (clock.inventory.length==0)) {
           console.log("The clock looks odd with no hour hand.");
         }
         else if (itemLookUp[target].isLocked === false && (roomLookUp[currentLocation].inventory.includes(target))) {
@@ -515,39 +521,62 @@ async function playNes() {
           console.log(itemLookUp[target].lockedMessage);
         }
         else {
-         console.log("That item is not here.")
+          console.log("That item is not here.")
         }
           
       }
 
-      //   ! OPEN DOOR 
+      //   ! OPEN Item 
       //   Have key 
       else if (commandWords.unlock.includes(command)) {
-        if (playerInventory.includes(itemLookUp[target].requiredKey)) {
-          console.log(itemLookUp[target].description);
-          itemLookUp[target].isLocked = false;
+        if (roomLookUp[currentLocation].inventory.includes(target)) {
+          // need a special case for alice's room in which opening doora also opens her room. 
+          if (target = "doora" && playerInventory.includes("letter")) {
+            console.log(doora.description);
+            player.removeInventory("letter");
+            doora.isLocked == false
+            bedroom.isLocked == false;
+            bedroom.addInventory("letter");
+          }
+          else if (playerInventory.includes(itemLookUp[target].requiredKey)) {
+            console.log(itemLookUp[target].description);
+            itemLookUp[target].isLocked = false;
+          }
+          else if (interactionLookUp.open.includes(target)) {
+            console.log("You don't have the right key to open this.")
+          }
+        
         }
-        else if (interactionLookUp.open.includes(target)) [
-          console.log("You don't have the right key to open this.")
-        ]
-        else {
-          console.log("You can't open that. No time for games! ROB NEEDS YOU!");
-        }
+      
+      else {
+        console.log("You can't open that. No time for games! ROB NEEDS YOU!");
+          
       }
+    }
+    
+  
+        
       //   ! Speak to ------------
-      else if (commandWords.talk.includes(command)) {
+    else if (commandWords.talk.includes(command)) {
         // woth nick we are going to push a new inventory item. can only get this item if you talk to nick.
         if (target == "nick" && currentLocation == "restaurant") {
           console.log(nick.description);
          roomLookUp[currentLocation].addInventory("tacos");
         }
-        else if (interactionLookUp.talkTo.includes(target) && roomLookUp[currentLocation].people.includes(target) && itemLookUp[target].isLocked === false) {
+        else if (/*interactionLookUp.talkTo.includes(target) && */roomLookUp[currentLocation].people.includes(target) && itemLookUp[target].isLocked === false) {
           console.log(itemLookUp[target].description);
         }
-          // special message for locked people.
-        else if(interactionLookUp.talkTo.includes(target) && roomLookUp[currentLocation].people.includes(target) && itemLookUp[target].isLocked === true){
-          console.log(itemLookUp[target].lockedMessage);
+          // you have the key for the person then you should get their description. 
+        else if (/* interactionLookUp.talkTo.includes(target) && */ roomLookUp[currentLocation].people.includes(target) && playerInventory.includes(itemLookUp[target].requiredKey)) {
+          itemLookUp[target].description;
+          itemLookUp[target].isLocked == false;
+          playerInventory.removeInventory[requiredKey];
+          
           }
+          
+        else if(/*interactionLookUp.talkTo.includes(target) && */roomLookUp[currentLocation].people.includes(target) && itemLookUp[target].isLocked === true){
+          console.log(itemLookUp[target].lockedMessage);
+        }
         else { console.log("You cannot speak to that person.")}
       }
 
@@ -559,9 +588,15 @@ async function playNes() {
             
             currentLocation = target;
             console.log(roomLookUp[currentLocation].description);
+          }
+            else if(playerInventory.includes(roomLookUp[target].requiredKey)) {
+          // prints the new room description.
+          console.log(roomLookUp[target].description);
+            roomLookUp[target].isLocked = false;
+            currentLocation = target;
             // You need to set the isDoorLocked = true
           } else {
-            console.log("This door is locked");
+            console.log("This door is locked.");
           }
         } else {
           // NOT A ROOM
