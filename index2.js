@@ -96,7 +96,7 @@ let kitchen = new Room({
   name: "Julia's Kitchen",
   inventory: ["clock", "wardrobe", "pie", "doora"],
   description:
-    "You are at Julia’s grandmother’s also known as Homeplace, a sign in the kitchen says ‘There’s no place like Homeplace’ and you can’t decide if it’s sweet or menacing.What kind of secrets do these walls hold? Elena has come for a potluck and the table is flipped and food is all over the floor, but a freshly baked pie sits unharmed on top of the oven. You wonder, would Elena have kidnapped Rob to take over his job, is this an attempt to move up the corporate ladder by taking out her direct superior? Julia is in the corner looking distraught. Julia, who is always talking… has it all been a cover to hide the truth? A large grandfather clock chimes 10 oclock  and you notice a wardrobe large enough to store a body in the corner of the room. There's also a door to Jonas’s lair and a door marked with a large A [doorA].",
+    "You are at Julia’s grandmother’s also known as Homeplace, a sign in the kitchen says ‘There’s no place like Homeplace’ and you can’t decide if it’s sweet or menacing. What kind of secrets do these walls hold? Elena has come for a potluck and the table is flipped and food is all over the floor, but a freshly baked pie sits unharmed on top of the oven.\n You wonder, would Elena have kidnapped Rob to take over his job, is this an attempt to move up the corporate ladder by taking out her direct superior? Julia is in the corner looking distraught. Julia, who is always talking… has it all been a cover to hide the truth? A large grandfather clock chimes 10 oclock  and you notice a wardrobe large enough to store a body in the corner of the room. There's also a door to Jonas’s lair and a door marked with a large A [doorA].",
   people: ["julia", "elena"],
     requiredKey: false,
   isRoomLocked: false,
@@ -107,7 +107,7 @@ let kitchen = new Room({
 let lair = new Room({
   name: "Jonas' Lair",
   inventory: ["nes"],
-  description: "You are now in Jonas’ Lair. We never get to see much of his space from his camera view, and you wonder, is it because he’s hiding something? Rob is always making jokes about Jonas’ age and pointing out how young he is. Did it push Jonas to the edge, was he sick of being reminded daily that he can’t drink and he’s barely an adult? Jonas sits at his workspace, his large monitors glowing as he watches 'JavaScript in 100 seconds.' You notice a Nintendo Entertainment System (NES) sitting on a bookshelf. That’s odd, Jonas wasn’t even alive when NES was released, how did he ever get his hands on one? You see the door that you just came through from Julia’s home, but don’t see any other doors out of here. Could this be a dead end?",  
+  description: "You are now in Jonas’ Lair. We never get to see much of his space from his camera view, and you wonder, is it because he’s hiding something? Rob is always making jokes about Jonas’ age and pointing out how young he is. Did it push Jonas to the edge, was he sick of being reminded daily that he can’t drink and he’s barely an adult? Jonas sits at his workspace, his large monitors glowing as he watches 'JavaScript in 100 seconds.' You notice a Nintendo Entertainment System (NES) sitting on a bookshelf. That’s odd, Jonas wasn’t even alive when NES was released, how did he ever get his hands on one? You see the door that you just came through from Julia’s kitchen, but don’t see any other doors out of here. Could this be a dead end?",  
   people: ["jonas"],
     requiredKey: false,
   isRoomLocked: false,
@@ -117,7 +117,7 @@ let lair = new Room({
 let restaurant = new Room({
   name: "Taco Gordo restaurant",
   inventory: ["margarita", "burrito"],
-  description: " Bienvenid@ a Taco Gordo! Your favorite local taqueria in downtown Burlington,take ma Vermont! Your mouth waters from the scent of fresh tortillas, el pastor tacos, and burritos. You notice two familiar figures slumped over at the bar, it’s Nick and Matt, but they’re not looking so good. Nick looks dazed and confused, like he doesn’t know where he is, and he doesn’t appear to have gotten any sleep. He’s also certainly not dressed for the weather. He’s wearing gold short shorts, and a ripped Burlington Code Academy Tshirt. Where did Nick get that Tshirt? You wonder, not even beloved TA Ben Villa has been able to snag one, and why is it ripped? Matt is in complete disarray, his long hair is all over the place and he appears to be passed out at the bar. Are they attempting to drink away their guilt? These are all signs of guilty men. There’s only the staircase back the way you came to Jonas' lair. You notice a full margarita on the bar next to Matt.",  
+  description: " Bienvenid@ a Taco Gordo! Your favorite local taqueria in downtown Burlington, Vermont! Your mouth waters from the scent of fresh tortillas, el pastor tacos, and burritos. You notice two familiar figures slumped over at the bar, it’s Nick and Matt, but they’re not looking so good. Nick looks dazed and confused, like he doesn’t know where he is, and he doesn’t appear to have gotten any sleep. He’s also certainly not dressed for the weather. He’s wearing gold short shorts, and a ripped Burlington Code Academy Tshirt. Where did Nick get that Tshirt? You wonder, not even beloved TA Ben Villa has been able to snag one, and why is it ripped? Matt is in complete disarray, his long hair is all over the place and he appears to be passed out at the bar. Are they attempting to drink away their guilt? These are all signs of guilty men. There’s only the staircase back the way you came to Jonas' lair. You notice a full margarita on the bar next to Matt.",  
   people: ["nick", "matt"],
     requiredKey: [],
   isRoomLocked: false,
@@ -161,7 +161,7 @@ let stage = new Room({
 let wardrobe = new Item({
   name: "wardrobe",
   description:
-    "The wardrobe opens, the scent of pine and fresh air wafts over you. You are now standing inside the wardrobe. Have you found a secret door to Narnia? You wonder. You are absolutely giddy with excitement. You feel around in the dark, you find something and you pick it up.  You use the flashlight of your phone to illuminate the object. It’s a, it’s a, IT’s A royal pine car air freshener. Well that explains the smell, you quickly flash your flashlight all around you, just knowing this must be a secret portal. Nope, you’re just standing in an empty dark wardrobe looking like an idiot... You exit the wardrobe.",
+    "The wardrobe opens, the scent of pine and fresh air wafts over you. You are now standing inside the wardrobe. Have you found a secret door to Narnia? You wonder. You are absolutely giddy with excitement. You feel around in the dark, you find something and you pick it up.  You use the flashlight of your phone to illuminate the object. It’s a, it’s a, IT’s A royal pine car air freshener. Well that explains the smell, you throw away the air freshener, and you quickly flash your flashlight all around you, just knowing this must be a secret portal. Nope, you’re just standing in an empty dark wardrobe looking like an idiot... You exit the wardrobe.",
   inventory: [],
   moveable: false,
     isLocked: true,
@@ -228,7 +228,7 @@ let elena = new Item({
 // ----------------Jonas (person)-----------------------------------------------
 let jonas = new Item({
   name: "Jonas",
-  description:"'What’s going on?', Jonas asks. You inform him of Rob’s kidnapping. He appears shocked. 'What! Who would do that? I haven’t seen Rob since our last class. I didn’t even know he was missing! He gave me that NES during our last class and asked me to look after it for him, but I didn’t think anything of it.'\nLikely story, you think to yourself. Is Jonas simply playing the part of the innocent child You’re not buying it. Jonas was seeming pretty chummy with Paul, would he have taken Rob out of the equation so that Paul would become our full time instructor? Was the NES truly a gift, or did Jonas steal it after Rob was kidnapped?",
+  description:"'What’s going on?', Jonas asks. You inform him of Rob’s kidnapping. He appears shocked. 'What! Who would do that? I haven’t seen Rob since our last class. I didn’t even know he was missing! He gave me that NES during our last class and asked me to look after it for him, but I didn’t think anything of it.'\nLikely story, you think to yourself. Is Jonas simply playing the part of the innocent child? You’re not buying it. Jonas was seeming pretty chummy with Paul, would he have taken Rob out of the equation so that Paul would become our full time instructor? Was the NES truly a gift, or did Jonas steal it after Rob was kidnapped?",
   inventory: [],
   moveable: false,
     isLocked: false,
@@ -325,13 +325,13 @@ let doora = new Item({
   inventory: [],
   moveable: false,
     isLocked: true,
-    lockedMessage: "The wooden door has a beautifully carved A and you wonder what it stands for. There's a mail slot with dancing cats around it. Maybe you should try to open doorA?",
+    lockedMessage: "The wooden door has a beautifully carved A and you wonder what it stands for. A note on the door reads 'I am looking for a lost letter. Please come in if you find it. Maybe you should try to open doorA?",
   requiredKey: "letter"
 });
 // --------------------------Pick--------------------------------------
 let pick = new Item({
   name: "guitar pick",
-  description: "You look at the guitar pick. Wait a second, you've seen this somewhere before... And all of a sudden you realize, the poster you see daily behind Leif! But what was that of?",
+  description: "You look at the guitar pick. Wait a second, you've seen this somewhere before... And all of a sudden you realize, the poster you see daily behind Leif! Could this be another clue...",
   inventory: [],
   moveable: true,
     isLocked: false,
@@ -352,7 +352,7 @@ let guitar = new Item({
 // ----------------------Leif (person)----------------------------
 let leif = new Item({
   name: "Leif",
-  description: "Leif looks lovingly toward the clouds. 'Whoaaaaa! Where did you come from?! I didn't realize you were such a Phish fan, but sooooo excited you're here', he trails off still smiling at the clouds. 'Leif, you shake him, I'm looking for Rob. And my investigation has brought me to you! Did you do something to him?' 'No way dudeeee, the only thing I did was share my peace and loveeeeee.' While rolling your eyes you spot a well-hidden entrance up to the stage." ,
+  description: "Leif looks lovingly toward the clouds. 'Whoaaaaa! Where did you come from?! I didn't realize you were such a Phish fan, but sooooo excited you're here', he trails off still smiling at the clouds. 'Leif, you shake him, I'm looking for Rob. And my investigation has brought me to you! Did you do something to him?' 'No way dudeeee, the only thing I did was share my loveeeeee and light.' While rolling your eyes you spot a well-hidden entrance up to the stage." ,
   inventory: [],
   moveable: true,
     isLocked: false,
@@ -366,7 +366,7 @@ let trey = new Item({
   inventory: [],
   moveable: true,
     isLocked: true,
-    lockedMessage: "'Who are you and what are you doing back here? You can't be back here.' You respond, 'I'm looking for my beloved instructor, Rob. Trey, I need to know, Vermonter to Vermonter, do you know who took him, did you help them? All roads have led here.' 'Whoa, whoa there young buck, I had nothing to do with any kidnapping, but maybe we can help each other. We're on in two minutes and I'm short an accoustic guitar. Can you help me find an acoustic guitar?' You find yourself thinkimg about Alice's guitar!",
+    lockedMessage: "'Who are you and what are you doing back here? You can't be back here.' You respond, 'I'm looking for my beloved instructor, Rob. Trey, I need to know, Vermonter to Vermonter, do you know who took him, did you help them? All roads have led here.' 'Whoa, whoa there young buck, I had nothing to do with any kidnapping, but maybe we can help each other. We're on in two minutes and I'm short an acoustic guitar. Can you help me find an acoustic guitar?' You find yourself thinking about Alice's guitar!",
   requiredKey: []
 });
 // !---------------------------------Lookup tables -------------------------------------------------------
@@ -431,7 +431,6 @@ let commandWords = {
   help: ["help"],
   inventory: ["inventory"],
   unlock: ["unlock", "open",],
-  solve: ["solve"],
   room: ["room"],
   view: ["view", "look", "see", "read", "examine", "inspect", "study", "check", "play", "turn on"],
   eat: ["eat", "devour", "consume", "ingest"],
@@ -464,12 +463,12 @@ async function playNes() {
   // Special Play guitar function to push Madison Square Garden to possible rooms. Can only move to this room after you've played the guitar.
 function playGuitar() {
       bedroom.possibleRooms.push("msg");
-
 }
+
     // !--------------------------------------------First Room Setup---------------------------------------------------------
 // -------------player created with no inventory to start the game and the first room is the kitchen ----------
-let player = new Player(["guitar"]);
-let currentLocation = "stage";
+let player = new Player([]);
+let currentLocation = "kitchen";
 
   // ! ----------------------------------------------START OF GAME -----------------------------------------------------------------
 //   Async Function and opening messages and images as well as breaking down the users answer/input into a command and a target
@@ -560,7 +559,7 @@ async function start() {
 
     // !--------------------------------------Help-----------------------------------------------------------
     else if (command == "help" || target =="hint" || target=="help") {
-      console.log("Here are some helpful hints: -You can [view location which will show everything and everyone in a room -You can [talk] to people in the room -You can [move] from one room to another  -You can [inspect] items -You can [pickup] moveable items -You can [unlock] items and [doors] -You can [drink] beverages -You can [eat] food -You can [give] certain people things -You can [view] player inventory -You can [view] the room inventory -You can [drop] items you've picked up -You can even [dance] in the right situation!");
+      console.log("Here are some helpful hints: -You can [view] location which will show everything and everyone in a room -You can [talk] to people in the room -You can [move] from one room to another  -You can [inspect] items -You can [pickup] moveable items -You can [unlock] items and [doors] -You can [drink] beverages -You can [eat] food -You can [give] certain people things -You can [view] player inventory -You can [view] the room inventory -You can [drop] items you've picked up -You can even [dance] in the right situation!");
     }
       
 // !--------------------------If single word command given and it's not a previous defined one---------------
@@ -836,17 +835,22 @@ async function start() {
         guitar.isLocked = false;
       }
     // Otherwise if we try to give alice anything else she reminds us she needs both taco and pies
-      else if (answer.includes("alice") && currentLocation== "bedroom")
-      { console.log("I need both the pie and tacos to think straight!") }
+      else if (answer.includes("alice") && currentLocation== "bedroom" && alice.isLocked ==true)
+      { console.log("I need both the [pie and tacos] to think straight!") }
+      else if ((answer.includes("alice") && currentLocation == "bedroom" && alice.isLocked == false))
+      { console.log("You can't give Alice that."); }
         // This is for when we give trey the guitar on stage
       else if (currentLocation == "stage" && answer.includes("guitar") && answer.includes("trey") && player.inventory.includes("guitar")) {
         console.log(trey.description);
         player.removeInventory("guitar");
         trey.isLocked = false;
       }
+        // If you try to give trey things after he's unlocked
+      else if (currentLocation == "stage" && answer.includes("trey") && trey.isLocked == false)
+        console.log("You can't give Trey that.")
         // If we try to give trey anything else he reminds us he needs a guitar.
-      else if (currentLocation == "stage" && answer.includes("trey")) {
-        console.log("'I really need a guitar! If you don't have one on you maybe you know where to find one!' Trey says.")
+      else if (currentLocation == "stage" && answer.includes("trey") && trey.isLocked== true ) {
+        console.log("I really need a guitar! If you don't have one on you maybe you know where to find one!' Trey says.")
       }
         // Otherwise a message to stop messing around.
       else {
