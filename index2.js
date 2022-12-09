@@ -51,9 +51,9 @@ class Room {
   }
   // ----------------- view room inventory------------------
   viewRoomInventory() {
-    return console.log(
+    return console.log(wordWrap(
       `This room has the following items: ` + this.inventory.join(", ")
-    );
+    ));
   }
 }
 // ---------------------------- item constuctor--------------------------
@@ -96,7 +96,7 @@ let kitchen = new Room({
   name: "Julia's Kitchen",
   inventory: ["clock", "wardrobe", "pie", "doora"],
   description:
-    "You are at Julia’s grandmother’s also known as Homeplace, a sign in the kitchen says ‘There’s no place like Homeplace’ and you can’t decide if it’s sweet or menacing. What kind of secrets do these walls hold? Elena has come for a potluck and the table is flipped and food is all over the floor, but a freshly baked pie sits unharmed on top of the oven.\n You wonder, would Elena have kidnapped Rob to take over his job, is this an attempt to move up the corporate ladder by taking out her direct superior? Julia is in the corner looking distraught. Julia, who is always talking… has it all been a cover to hide the truth? A large grandfather clock chimes 10 oclock  and you notice a wardrobe large enough to store a body in the corner of the room. There's also a door to Jonas’s lair and a door marked with a large A [doorA].",
+    "You are at Julia’s grandmother’s also known as Homeplace, a sign in the kitchen says ‘There’s no place like Homeplace’ and you can’t decide if it’s sweet or menacing. What kind of secrets do these walls hold? Elena has come for a potluck and the table is flipped and food is all over the floor, but a freshly baked pie sits unharmed on top of the oven. You wonder, would Elena have kidnapped Rob to take over his job, is this an attempt to move up the corporate ladder by taking out her direct superior? Julia is in the corner looking distraught.Julia, who is always talking… has it all been a cover to hide the truth? A large grandfather clock chimes 10 oclock  and you notice a wardrobe large enough to store a body in the corner of the room.There's also a door to Jonas’s lair and a door marked with a large A [doorA].",
   people: ["julia", "elena"],
     requiredKey: false,
   isRoomLocked: false,
@@ -205,7 +205,7 @@ let pie = new Item({
 let julia = new Item({
   name: "Julia",
   description:
-    "'I don’t know what happened!  Rob was here and I stepped out to buy a keg of Heady Topper because after learning about promises with Paul I knew we were all going to need a lot more to drink. When I came back, Rob was gone and the house was in disarray'. \n You think to yourself, she’s not wrong, I still feel like I’m lost in a rabbit hole after this week’s lessons. I could really go for a drink. You stop yourself. Eyes on the prize, no time for drinking we have to find Rob.",
+    "'I don’t know what happened!  Rob was here and I stepped out to buy a keg of Heady Topper because after learning about promises with Paul I knew we were all going to need a lot more to drink. When I came back, Rob was gone and the house was in disarray'. You think to yourself, she’s not wrong, I still feel like I’m lost in a rabbit hole after this week’s lessons. I could really go for a drink. You stop yourself. Eyes on the prize, no time for drinking we have to find Rob.",
   inventory: [],
   moveable: false,
     isLocked: false,
@@ -216,7 +216,7 @@ let julia = new Item({
 let elena = new Item({
   name: "Elena",
   description:
-    "“Rob was having a great time. I swear I don’t know what happened! He was telling me one of his famous dad jokes and then out of nowhere he stood up suddenly, causing the table to flip over and ran out of the room. I was so preoccupied with the flipping table that I didn’t see which way he went.” \nLikely story you think... We all know kidnappers are almost always those who are closest to the victim. Elena is the last one to have seen Rob and is now our number one suspect.",
+    "“Rob was having a great time. I swear I don’t know what happened! He was telling me one of his famous dad jokes and then out of nowhere he stood up suddenly, causing the table to flip over and ran out of the room. I was so preoccupied with the flipping table that I didn’t see which way he went.” \n Likely story you think... We all know kidnappers are almost always those who are closest to the victim. Elena is the last one to have seen Rob and is now our number one suspect.",
   inventory: [],
   moveable: false,
     isLocked: false,
@@ -228,7 +228,7 @@ let elena = new Item({
 // ----------------Jonas (person)-----------------------------------------------
 let jonas = new Item({
   name: "Jonas",
-  description:"'What’s going on?', Jonas asks. You inform him of Rob’s kidnapping. He appears shocked. 'What! Who would do that? I haven’t seen Rob since our last class. I didn’t even know he was missing! He gave me that NES during our last class and asked me to look after it for him, but I didn’t think anything of it.'\nLikely story, you think to yourself. Is Jonas simply playing the part of the innocent child? You’re not buying it. Jonas was seeming pretty chummy with Paul, would he have taken Rob out of the equation so that Paul would become our full time instructor? Was the NES truly a gift, or did Jonas steal it after Rob was kidnapped?",
+  description:"'What’s going on?', Jonas asks. You inform him of Rob’s kidnapping. He appears shocked. 'What! Who would do that? I haven’t seen Rob since our last class. I didn’t even know he was missing! He gave me that NES during our last class and asked me to look after it for him, but I didn’t think anything of it.'\n Likely story, you think to yourself. Is Jonas simply playing the part of the innocent child? You’re not buying it. Jonas was seeming pretty chummy with Paul, would he have taken Rob out of the equation so that Paul would become our full time instructor? Was the NES truly a gift, or did Jonas steal it after Rob was kidnapped?",
   inventory: [],
   moveable: false,
     isLocked: false,
@@ -449,14 +449,14 @@ async function playNes() {
     let target = await ask(">_");
     let age = 2022 - target
     if (age >= 21) {
-      await ask(nes.description);
+      await ask (wordWrap(nes.description));
       currentLocation = "restaurant";
       console.log();
-      console.log(restaurant.description)
+      console.log(wordWrap(restaurant.description))
       return;
     }
       else {
-        target = console.log("You are too young to enter this room. Maybe you should tell a white lie.");
+        target = console.log(wordWrap("You are too young to enter this room. Maybe you should tell a white lie."));
       }
     }
 }
@@ -464,6 +464,36 @@ async function playNes() {
 function playGuitar() {
       bedroom.possibleRooms.push("msg");
 }
+// Wrap function from walk through with Rob------------------------
+function wordWrap(words) {
+  let maxCharacterLength = 80;
+  let arrayOfWords = words.split(" ");
+  
+  let currentCharacterCount = 0;
+  let breakLines = [];
+
+  let currentLineOfText = "";
+  arrayOfWords.forEach((word, index) => {
+    if (index === arrayOfWords.length - 1) {
+      // We are at the end of the array print what we got
+      currentLineOfText = currentLineOfText + " " + word;
+      breakLines.push(currentLineOfText + "\n");
+    } else if (currentCharacterCount + word.length > maxCharacterLength) {
+      // New Line
+      breakLines.push(currentLineOfText + "\n");
+      currentCharacterCount = word.length;
+      currentLineOfText = word;
+    } else {
+      // Add the current word to the text
+      currentCharacterCount = currentCharacterCount + word.length;
+      currentLineOfText = currentLineOfText + " " + word;
+    }
+  });
+  return breakLines.join(" ");
+}
+
+
+
 
     // !--------------------------------------------First Room Setup---------------------------------------------------------
 // -------------player created with no inventory to start the game and the first room is the kitchen ----------
@@ -496,12 +526,12 @@ async function start() {
   jgs|  |- || |  |  |  |  |  |  | || || |  |  |  |  |  |  | ||= |  |  |
  ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^~~~~~~~~~~~` + magenta)
   // ---------------------Description of the puzzle the user must solve ---------------------------------------------------
-  await ask(
+  await ask (wordWrap(
     "You find yourself in great distress, your beloved instructor, Rob Vanarsdall, has been kidnapped! (* GASP*) Your classmates are beside themselves, but is it a coverup? Did one of them kidnap Rob to avoid completing their Zorkington project or are they truly innocent? It will be up to you to discover the truth. You are outside the Upright Mansion, where each door is a portal to another student's location. It is up to you to figure out who has kidnapped Rob and to return him to his beloved students. Press any key to enter." + white
-  );
+  ));
 // Empty space and first room you enter. When you play the game it will be the kitchen. 
   console.log();
-  console.log(roomLookUp[currentLocation].description);
+  console.log(wordWrap(roomLookUp[currentLocation].description));
 
   // * ----------------------------------------------Input/Answer Breakdown------------------------------------------
 //  Game will continue unless player types exit
@@ -521,7 +551,7 @@ async function start() {
     
   // ! -------Quit game ---------------------------------------
     if (command == "quit") {
-      console.log("You failed to solve the kidnapping of your beloved instructor Rob Vanarsdall and the kidnappers remain free! You have failed Rob and your classmates!")
+      console.log(wordWrap("You failed to solve the kidnapping of your beloved instructor Rob Vanarsdall and the kidnappers remain free! You have failed Rob and your classmates!"));
       process.exit();
     }
     // ! -----------Special Dance Command used at the end of the game to solve the last piece of the puzzle --------------------
@@ -529,13 +559,13 @@ async function start() {
     else if (command == "dance")
     if( currentLocation == "stage" && trey.isLocked == false)
     {
-      await ask("You start to dance and as Divided Sky's last notes fade into the distance, a familiar silhouette comes onto stage. You can hardely believe your eyes! Trey steps up to the microphone. 'Everyone give a warm welcome to our newest guitarist, Robert Vanarsdall!' The crowd errupts in screams and applause!' [Enter]");
+      await ask (wordWrap("You start to dance and as Divided Sky's last notes fade into the distance, a familiar silhouette comes onto stage. You can hardely believe your eyes! Trey steps up to the microphone. 'Everyone give a warm welcome to our newest guitarist, Robert Vanarsdall!' The crowd errupts in screams and applause!' [Enter]"));
       
     // Spacing between the text
       console.log()
       stage.people.push("rob");
        
-      await ask(green + "Rob grabs a microphone in his hand and shouts 'I'VE QUIT MY JOB AND RUN AWAY TO BE A ROCKSTAR!' The crowd errupts in screams once more. He begins belting out the lyrics of Bathtub Gin, and the rest of Phish joins him. Well, I guess Rob wasn't kidnapped after all... \nPress any key to end the game.");
+      await ask (wordWrap(green + "Rob grabs a microphone in his hand and shouts 'I'VE QUIT MY JOB AND RUN AWAY TO BE A ROCKSTAR!' The crowd errupts in screams once more. He begins belting out the lyrics of Bathtub Gin, and the rest of Phish joins him. Well, I guess Rob wasn't kidnapped after all... Press any key to end the game."));
       
 // ---------------------------------------Stage image ----------------------------------
       console.log(blue+ `|--------------------------------------------------------------|
@@ -555,16 +585,16 @@ async function start() {
       process.exit();
 
     }
-      else{ console.log("We all love to dance, but this is not the time or place! We need to find Rob! ")}
+      else{ console.log(wordWrap("We all love to dance, but this is not the time or place! We need to find Rob! "))}
 
     // !--------------------------------------Help-----------------------------------------------------------
     else if (command == "help" || target =="hint" || target=="help") {
-      console.log("Here are some helpful hints: -You can [view] location which will show everything and everyone in a room -You can [talk] to people in the room -You can [move] from one room to another  -You can [inspect] items -You can [pickup] moveable items -You can [unlock] items and [doors] -You can [drink] beverages -You can [eat] food -You can [give] certain people things -You can [view] player inventory -You can [view] the room inventory -You can [drop] items you've picked up -You can even [dance] in the right situation!");
+      console.log(wordWrap("Here are some helpful hints: -You can [view] location which will show everything and everyone in a room -You can [talk] to people in the room -You can [move] from one room to another  -You can [inspect] items -You can [pickup] moveable items -You can [unlock] items and [doors] -You can [drink] beverages -You can [eat] food -You can [give] certain people things -You can [view] player inventory -You can [view] the room inventory -You can [drop] items you've picked up -You can even [dance] in the right situation!"));
     }
       
 // !--------------------------If single word command given and it's not a previous defined one---------------
     else if (command == target)
-      {console.log("Please specify the command or the target. command+target")}
+      {console.log(wordWrap("Please specify the command or the target. command+target"))}
     //    ! ---------------View Room Inventory--------------------
     //  Targeting the words room and inventory and showing the room inventory 
     else if (
@@ -580,13 +610,13 @@ async function start() {
       commandWords.view.includes(command) &&
       twoWordTarget == "player inventory"
     ) {
-      console.log(
+      console.log(wordWrap(
         "You have the following inventory:" + player.inventory.join(", ")
-      );
+      ));
     }
     // ! Correcting for if player just says view inventory need them to specify. 
     else if (commandWords.view.includes(command) && target == "inventory") {
-      console.log("Please specify if you would like to view the room inventory or the player inventory.");
+      console.log(wordWrap("Please specify if you would like to view the room inventory or the player inventory."));
     }
         
     //   ! -------------------------- Pickup Item ----------------------------------------
@@ -596,12 +626,12 @@ async function start() {
 
       // If already in players inventory
       if (player.inventory.includes(target)) {
-        console.log("You already have the " + target + " in your inventory");
-        // console.log(player.inventory.join(", "));
+        console.log(wordWrap("You already have the " + target + " in your inventory"));
+       
       }
       // special message for margarita so player has to drink it in restaurant
       else if (restaurant.inventory.includes("margarita") && target == "margarita" && currentLocation == "restaurant") {
-        console.log("'Sorry, I can't let you take alcohol to go', a bartender warns from afar.");
+        console.log(wordWrap("'Sorry, I can't let you take alcohol to go', a bartender warns from afar."));
       }
         //  Checks that item is in the room and the item can be picked up 
       else if (
@@ -609,18 +639,18 @@ async function start() {
         currentItem.moveable == true
       ) {
         player.addInventory(target);
-        console.log("You picked up the " + target + ".");
+        console.log(wordWrap("You picked up the " + target + "."));
         roomLookUp[currentLocation].removeInventory(target);
       }
         // if the key is still in the clock and you are in the correct room you can take the key and it removes it from the clock inventory
       else if ((clock).inventory.includes(target) && (roomLookUp[currentLocation].name === "Julia's Kitchen")) {
-        console.log("You have picked up the H Key!");
+        console.log(wordWrap("You have picked up the H Key!"));
         player.addInventory(target);
         clock.inventory.pop("key")
       }
         // else you can't pickup that item 
       else {
-        console.log("You can't take that. Stop messing around Rob needs us!");
+        console.log(wordWrap("You can't take that. Stop messing around Rob needs us!"));
       }
     }
       
@@ -631,30 +661,30 @@ async function start() {
       // First it gives us a locked message to prompt the user what they need to do
     else if (commandWords.view.includes(command)) {
       if (target == "nes" && currentLocation == "lair") {
-        console.log(nes.lockedMessage);
+        console.log(wordWrap(nes.lockedMessage));
         await playNes();
       }
      
       // Didn't want player to continue to see key in clock if it is removed
       // If clock inventory is empty it will have a different description
       else if (target == "clock" && currentLocation == "kitchen" && (clock.inventory.length == 0)) {
-        console.log("The clock looks odd with no hour hand.");
+        console.log(wordWrap("The clock looks odd with no hour hand."));
       }
       // gives a full status update of locationthat includes people, inventory and possible rooms.
       else if (target == "location" || target == "status") {
-        console.log("You are currently in " + roomLookUp[currentLocation].name + " the following people are here: ["+ roomLookUp[currentLocation].people + "] the room inventory is: [" + roomLookUp[currentLocation].inventory + "] your inventory is: [" + player.inventory + "] the possible room(s) you can move to is/are: [" + roomLookUp[currentLocation].possibleRooms +"].")
+        console.log(wordWrap("You are currently in " + roomLookUp[currentLocation].name + " the following people are here: ["+ roomLookUp[currentLocation].people + "] the room inventory is: [" + roomLookUp[currentLocation].inventory + "] your inventory is: [" + player.inventory + "] the possible room(s) you can move to is/are: [" + roomLookUp[currentLocation].possibleRooms +"]."))
         }
         // Item is not locked and the room has the item or the player has the item in their inventory 
       else if (((roomLookUp[currentLocation].inventory.includes(target)) || player.inventory.includes(target)) && itemLookUp[target].isLocked == false) {
-        console.log(itemLookUp[target].description);
+        console.log(wordWrap(itemLookUp[target].description));
       }
         // Item is locked and in the room or in the player inventory a locked message will print 
       else if ( ((roomLookUp[currentLocation].inventory.includes(target)) || player.inventory.includes(target)) && itemLookUp[target].isLocked === true) {
-        console.log(itemLookUp[target].lockedMessage);
+        console.log(wordWrap(itemLookUp[target].lockedMessage));
       }
         // else that item isn't here
        else {
-        console.log("That item is not here or it is not something you can inspect! Time is against you! You must find the kidnapper!")
+        console.log(wordWrap("That item is not here or it is not something you can inspect! Time is against you! You must find the kidnapper!"))
       }
       // if the guitar will prompt a special function that pushes a new location 
          if (target == "guitar"  && currentLocation == "bedroom" && player.inventory.includes("pick")) {
@@ -666,7 +696,7 @@ async function start() {
       // !----------------- Open Bedroom--------------
       // bedroom is locked so people might try command open bedroom, which doesn't work because unlock is for items like doors
       else if (commandWords.unlock.includes(command) && target == "bedroom" && currentLocation == "kitchen" && bedroom.isRoomLocked == true)
-        {console.log("You must unlock door A [doora] to [enter] the bedroom.")}
+        {console.log(wordWrap("You must unlock door A [doora] to [enter] the bedroom."))}
 
     //   ! -------------------------------------------OPEN Item ---------------------------------------------------------
     else if (commandWords.unlock.includes(command)) {
@@ -674,33 +704,33 @@ async function start() {
       if (roomLookUp[currentLocation].inventory.includes(target)) {
         // need a special case for alice's room in which opening doora also opens her room. 
         if (target == "doora" && player.inventory.includes("letter")) {
-          console.log(doora.description);
+          console.log(wordWrap(doora.description));
           player.removeInventory("letter");
           doora.isLocked = false;
           bedroom.isRoomLocked = false;
           bedroom.addInventory("letter");
         }
         // If doora is open will get a message that Alice's bedroom door is open
-        else if (target == "doora" && doora.isLocked == false) { console.log("The door to Alice's bedroom is unlocked.") }
+        else if (target == "doora" && doora.isLocked == false) { console.log(wordWrap("The door to Alice's bedroom is unlocked.")) }
           // item is ooen
         else if (itemLookUp[target].isLocked == false) {
-          console.log(itemLookUp[target].description);
+          console.log(wordWrap(itemLookUp[target].description));
           }
         // If an item is locked and you have the key you will receive the description and the item will be set to unlocked
         else if (player.inventory.includes(itemLookUp[target].requiredKey)) {
-          console.log(itemLookUp[target].description);
+          console.log(wordWrap(itemLookUp[target].description));
           itemLookUp[target].isLocked = false;
         }
         // If it;s locked and you don't have the right key 
         else if (interactionLookUp.open.includes(target)) {
-          console.log("You don't have the right key to open this.")
+          console.log(wordWrap("You don't have the right key to open this."))
         }
           // If it's in the room but you can't open it
-        else { console.log("You can't open that! Time is ticking you have to find Rob!") }
+        else { console.log(wordWrap("You can't open that! Time is ticking you have to find Rob!")) }
       }
       // Not inventory in the room
       else {
-        console.log("You can't open that. No time for games! ROB NEEDS YOU!");
+        console.log(wordWrap("You can't open that. No time for games! ROB NEEDS YOU!"));
           
       }
     }
@@ -711,12 +741,12 @@ async function start() {
     else if (commandWords.talk.includes(command)) {
       // with nick we are going to push a new inventory item. Can only get this item if you talk to nick. Have to be in the restaurant.
       if (target == "nick" && currentLocation == "restaurant") {
-        console.log(nick.description);
+        console.log(wordWrap(nick.description));
         roomLookUp[currentLocation].addInventory("tacos");
       }
       // If the person is not "locked" you will get their description
       else if (roomLookUp[currentLocation].people.includes(target) && itemLookUp[target].isLocked === false) {
-        console.log(itemLookUp[target].description);
+        console.log(wordWrap(itemLookUp[target].description));
       }
       // you have the "key" for the person then you will get their description. 
       else if (roomLookUp[currentLocation].people.includes(target) && player.inventory.includes(itemLookUp[target].requiredKey)) {
@@ -727,12 +757,12 @@ async function start() {
       }
      // if person is "locked" you will get their locked description
       else if (roomLookUp[currentLocation].people.includes(target) && itemLookUp[target].isLocked === true) {
-        console.log(itemLookUp[target].lockedMessage);
+        console.log(wordWrap(itemLookUp[target].lockedMessage));
       }
         // Try to talk to a person that is not in the room
-      else if (interactionLookUp.talkTo.includes(target)) { console.log("That person is not in this room.") }
+      else if (interactionLookUp.talkTo.includes(target)) { console.log(wordWrap("That person is not in this room.")) }
     // Try to talk to a thing or a person not in the game
-      else{console.log("Stop messing around! Rob needs us! You must figure out who kidnapped him!")}
+      else{console.log(wordWrap("Stop messing around! Rob needs us! You must figure out who kidnapped him!"))}
     }
 
     // ! ------------------------------------MOVE Rooms --------------------------------------------------------
@@ -744,20 +774,20 @@ async function start() {
       // If the room is unlocked it will change the current location to the current room and print the description
         if (roomLookUp[target].isRoomLocked == false) {
           currentLocation = target;
-          console.log(roomLookUp[currentLocation].description);
+          console.log(wordWrap(roomLookUp[currentLocation].description));
         }
         // If locked but player has the key prints the new room description, sets the room to unlocked, and updates the current location
         else if (player.inventory.includes(roomLookUp[target].requiredKey)) {
-          console.log(roomLookUp[target].description);
+          console.log(wordWrap(roomLookUp[target].description));
           roomLookUp[target].isRoomLocked = false;
           currentLocation = target;
           // Otherwise the door is locked 
         } else {
-          console.log("This door is locked.");
+          console.log(wordWrap("This door is locked."));
         }
       } else {
         // NOT A ROOM You can move to 
-        console.log("You cannot get to that room from here.");
+        console.log(wordWrap("You cannot get to that room from here."));
       }
     }
   
@@ -768,23 +798,23 @@ async function start() {
       if (target == "burrito" && (roomLookUp[currentLocation].inventory.includes("burrito"))){
         roomLookUp[currentLocation].removeInventory("burrito");
         player.addInventory("letter");
-        console.log(burrito.description)
-        console.log(itemLookUp["letter"].lockedMessage);
+        console.log(wordWrap(burrito.description))
+        console.log(wordWrap(itemLookUp["letter"].lockedMessage));
       }
       // case if burrito is in player inventory, same as above  
       else if (target == "burrito" && player.inventory.includes("burrito")) {
         player.removeInventory("burrito");
         player.addInventory("letter");
-        console.log(burrito.description)
-        console.log(itemLookUp["letter"].lockedMessage);
+        console.log(wordWrap(burrito.description))
+        console.log(wordWrap(itemLookUp["letter"].lockedMessage));
       }
           // Pie and Tacos are for Alice can't eat them
       else if (target == "pie" && roomLookUp[currentLocation].inventory.includes("pie") || target == "tacos" && roomLookUp[currentLocation].inventory.includes("tacos") || target == "pie" && player.inventory.includes("pie") || target == "tacos" && player.inventory.includes("tacos")) {
-        console.log("You can't eat that! It is for Alice!");
+        console.log(wordWrap("You can't eat that! It is for Alice!"));
       }
       // checks it is something you can eat, that the item is in the room, and removes it from the room inventory 
       else if (interactionLookUp.canEat.includes(target) && roomLookUp[currentLocation].inventory.includes(target)) {
-        console.log(itemLookUp[target].description);
+        console.log(wordWrap(itemLookUp[target].description));
         roomLookUp[currentLocation].removeInventory(target);
        
       }
@@ -793,7 +823,7 @@ async function start() {
         player.removeInventory(target);
       }
       else {
-        console.log("This is no time for shenanigans! You can't eat that!");
+        console.log(wordWrap("This is no time for shenanigans! You can't eat that!"));
       }
         
     }
@@ -805,13 +835,13 @@ async function start() {
       // For now no need to worry about if it's in the player inventory because the ALCHOLIC BEVERAGES ARE NOT ALLOWED TO GO. 
       // If added more drinks would need to add a line about in player inventory and then remove it from the inventory.
       if ((interactionLookUp.canDrink.includes(target) && roomLookUp[currentLocation].inventory.includes(target))) {
-        console.log(itemLookUp[target].description);
+        console.log(wordWrap(itemLookUp[target].description));
         roomLookUp[currentLocation].removeInventory(target);
       }
       // Already drank it
-      else if (interactionLookUp.canDrink.includes(target)) { console.log("You already drank that! Did you forget already? Maybe that drink wasn't the best idea."); }
+      else if (interactionLookUp.canDrink.includes(target)) { console.log(wordWrap("You already drank that! Did you forget already? Maybe that drink wasn't the best idea.")); }
       else {
-        console.log("This is no time for shenanigans! You can't drink that!");
+        console.log(wordWrap("This is no time for shenanigans! You can't drink that!"));
       }
         
     }
@@ -826,35 +856,35 @@ async function start() {
       // The first time we need to give Alice Tacos and Pie in her room. We are checking for all of those.
       // Then it removes those items from the player inventory and alice gives us a pick which is added to the player inventory and sets the gutair to unlocked. 
       if (currentLocation == "bedroom" && answer.includes("tacos") && answer.includes("pie") && answer.includes("alice") && player.inventory.includes("tacos") && player.inventory.includes("pie")) {
-        console.log(alice.description);
+        console.log(wordWrap(alice.description));
         alice.isLocked = false;
         player.removeInventory("tacos");
         player.removeInventory("pie");
-        console.log("Also, I found this pick on the ground. She hands you the pick.")
+        console.log(wordWrap("Also, I found this pick on the ground. She hands you the pick."))
         player.addInventory("pick");
         guitar.isLocked = false;
       }
     // Otherwise if we try to give alice anything else she reminds us she needs both taco and pies
       else if (answer.includes("alice") && currentLocation== "bedroom" && alice.isLocked ==true)
-      { console.log("I need both the [pie and tacos] to think straight!") }
+      { console.log(wordWrap("I need both the [pie and tacos] to think straight!")) }
       else if ((answer.includes("alice") && currentLocation == "bedroom" && alice.isLocked == false))
-      { console.log("You can't give Alice that."); }
+      { console.log(wordWrap("You can't give Alice that.")); }
         // This is for when we give trey the guitar on stage
       else if (currentLocation == "stage" && answer.includes("guitar") && answer.includes("trey") && player.inventory.includes("guitar")) {
-        console.log(trey.description);
+        console.log(wordWrap(trey.description));
         player.removeInventory("guitar");
         trey.isLocked = false;
       }
         // If you try to give trey things after he's unlocked
       else if (currentLocation == "stage" && answer.includes("trey") && trey.isLocked == false)
-        console.log("You can't give Trey that.")
+        console.log(wordWrap("You can't give Trey that."))
         // If we try to give trey anything else he reminds us he needs a guitar.
       else if (currentLocation == "stage" && answer.includes("trey") && trey.isLocked== true ) {
-        console.log("I really need a guitar! If you don't have one on you maybe you know where to find one!' Trey says.")
+        console.log(wordWrap("I really need a guitar! If you don't have one on you maybe you know where to find one!' Trey says."))
       }
         // Otherwise a message to stop messing around.
       else {
-        console.log("You can't give that! Come on this is serious! You have to find Rob before it's too late!");
+        console.log(wordWrap("You can't give that! Come on this is serious! You have to find Rob before it's too late!"));
       }
       
     }
@@ -868,9 +898,9 @@ async function start() {
       if (player.inventory.includes(target)) {
         player.removeInventory(target);
         roomLookUp[currentLocation].addInventory(target);
-        console.log("You just dropped the " + target + " like it's hot in the " + roomLookUp[currentLocation].name + ".")
+        console.log(wordWrap("You just dropped the " + target + " like it's hot in the " + roomLookUp[currentLocation].name + "."))
       }
-      else { console.log("You don't have that item in your inventory.")
+      else { console.log(wordWrap("You don't have that item in your inventory."))
 
       }
     }
@@ -878,7 +908,7 @@ async function start() {
       // Will return message it does not understand 
     else
       if (allTargets.includes(target) == false || CommandLookup.includes(command) == false) {
-      console.log("That is not a command I understand.");
+      console.log(wordWrap("That is not a command I understand."));
     }
   
   }
