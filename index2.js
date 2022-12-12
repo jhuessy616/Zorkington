@@ -464,7 +464,7 @@ async function playNes() {
 function playGuitar() {
       bedroom.possibleRooms.push("msg");
 }
-// Wrap function from walk through with Rob------------------------
+// Wrap function from walk through with Rob, cuts off at 80 characters closest space ------------------------
 function wordWrap(words) {
   let maxCharacterLength = 80;
   let arrayOfWords = words.split(" ");
@@ -475,7 +475,7 @@ function wordWrap(words) {
   let currentLineOfText = "";
   arrayOfWords.forEach((word, index) => {
     if (index === arrayOfWords.length - 1) {
-      // We are at the end of the array print what we got
+      // We are at the end of the array 
       currentLineOfText = currentLineOfText + " " + word;
       breakLines.push(currentLineOfText + "\n");
     } else if (currentCharacterCount + word.length > maxCharacterLength) {
