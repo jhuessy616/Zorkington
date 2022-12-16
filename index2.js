@@ -5,11 +5,12 @@ const readlineInterface = readline.createInterface(
   process.stdin,
   process.stdout
 );
-// terminal colors
+// terminal colors and style
 let green = "\033[92m";
 let white = "\033[0;39m";
 let magenta = '\033[1;95m';
 let blue = '\033[34m';
+let dim = "\x1b[2m"
 // promises 
 function ask(questionText) {
   return new Promise((resolve, reject) => {
@@ -117,7 +118,7 @@ let lair = new Room({
 let restaurant = new Room({
   name: "Taco Gordo restaurant",
   inventory: ["margarita", "burrito"],
-  description: " Bienvenid@ a Taco Gordo! Your favorite local taqueria in downtown Burlington, Vermont! Your mouth waters from the scent of fresh tortillas, el pastor tacos, and burritos. You notice two familiar figures slumped over at the bar, it’s Nick and Matt, but they’re not looking so good. Nick looks dazed and confused, like he doesn’t know where he is, and he doesn’t appear to have gotten any sleep. He’s also certainly not dressed for the weather. He’s wearing gold short shorts, and a ripped Burlington Code Academy Tshirt. Where did Nick get that Tshirt? You wonder, not even beloved TA Ben Villa has been able to snag one, and why is it ripped? Matt is in complete disarray, his long hair is all over the place and he appears to be passed out at the bar. Are they attempting to drink away their guilt? These are all signs of guilty men. There’s only the staircase back the way you came to Jonas' lair. You notice a full margarita on the bar next to Matt.",  
+  description: "Bienvenid@ a Taco Gordo! Your favorite local taqueria in downtown Burlington, Vermont! Your mouth waters from the scent of fresh tortillas, el pastor tacos, and burritos. You notice two familiar figures slumped over at the bar, it’s Nick and Matt, but they’re not looking so good. Nick looks dazed and confused, like he doesn’t know where he is, and he doesn’t appear to have gotten any sleep. He’s also certainly not dressed for the weather. He’s wearing gold short shorts, and a ripped Burlington Code Academy Tshirt. Where did Nick get that Tshirt? You wonder, not even beloved TA Ben Villa has been able to snag one, and why is it ripped? Matt is in complete disarray, his long hair is all over the place and he appears to be passed out at the bar. Are they attempting to drink away their guilt? These are all signs of guilty men. There’s only the staircase back the way you came to Jonas' lair. You notice a full margarita on the bar next to Matt.",  
   people: ["nick", "matt"],
     requiredKey: [],
   isRoomLocked: false,
@@ -443,20 +444,23 @@ let commandWords = {
 * Need to be 21 or older to enter. Since it's almost the end of the year simply using 2022 as the benchmark. 
 * Will continue in a loop until you put a birth year that would make you over 21. 
 *Prompts younger users to tell a white lie. 
+*current room status displayed as well 
  */
 async function playNes() {
   while (true) {
+    console.log(wordWrap(dim+ "(Current Room: " + currentLocation + ")" + white))
     let target = await ask(">_");
     let age = 2022 - target
     if (age >= 21) {
-      await ask (wordWrap(nes.description));
+      await ask(wordWrap(nes.description) + wordWrap(dim + "\n (Current Room: " + currentLocation + ")" + white));
+       console.log(wordWrap(dim+ "(Current Room: " + currentLocation + ")" + white))
       currentLocation = "restaurant";
       console.log();
       console.log(wordWrap(restaurant.description))
       return;
     }
       else {
-        target = console.log(wordWrap("You are too young to enter this room. Maybe you should tell a white lie."));
+      target = console.log(wordWrap("You are too young to enter this room. Maybe you should tell a white lie."));
       }
     }
 }
@@ -532,6 +536,8 @@ async function start() {
 // Empty space and first room you enter. When you play the game it will be the kitchen. 
   console.log();
   console.log(wordWrap(roomLookUp[currentLocation].description));
+  // ! Status line for first room description-------------------------------------
+  console.log(wordWrap(dim+ "(Current Room: " + currentLocation + ")" + white));
 
   // * ----------------------------------------------Input/Answer Breakdown------------------------------------------
 //  Game will continue unless player types exit
@@ -559,13 +565,13 @@ async function start() {
     else if (command == "dance")
     if( currentLocation == "stage" && trey.isLocked == false)
     {
-      await ask (wordWrap("You start to dance and as Divided Sky's last notes fade into the distance, a familiar silhouette comes onto stage. You can hardely believe your eyes! Trey steps up to the microphone. 'Everyone give a warm welcome to our newest guitarist, Robert Vanarsdall!' The crowd errupts in screams and applause!' [Enter]"));
+      await ask (wordWrap("You start to dance and as Divided Sky's last notes fade into the distance, a familiar silhouette comes onto stage. You can hardely believe your eyes! Trey steps up to the microphone. 'Everyone give a warm welcome to our newest guitarist, Robert Vanarsdall!' The crowd errupts in screams and applause!' [Enter]") +wordWrap(blue + "\n (Current Status: PURE SHOCK)" + white));
       
     // Spacing between the text
       console.log()
       stage.people.push("rob");
        
-      await ask (wordWrap(green + "Rob grabs a microphone in his hand and shouts 'I'VE QUIT MY JOB AND RUN AWAY TO BE A ROCKSTAR!' The crowd errupts in screams once more. He begins belting out the lyrics of Bathtub Gin, and the rest of Phish joins him. Well, I guess Rob wasn't kidnapped after all... Press any key to end the game."));
+      await ask (wordWrap(green + "Rob grabs a microphone in his hand and shouts 'I'VE QUIT MY JOB AND RUN AWAY TO BE A ROCKSTAR!' The crowd errupts in screams once more. He begins belting out the lyrics of Bathtub Gin, and the rest of Phish joins him. Well, I guess Rob wasn't kidnapped after all... Press any key to end the game.") + wordWrap(magenta + "\n (Current Status: Pure Joy that Rob has found his true calling...)" + white));
       
 // ---------------------------------------Stage image ----------------------------------
       console.log(blue+ `|--------------------------------------------------------------|
@@ -909,8 +915,9 @@ async function start() {
     else
       if (allTargets.includes(target) == false || CommandLookup.includes(command) == false) {
       console.log(wordWrap("That is not a command I understand."));
-    }
-  
+      }
+    // ! Status Line always showing location-------------------------------------------------------------------
+    console.log(wordWrap(dim+ "(Current Room: " + currentLocation + ")" + white));
   }
 }
     
